@@ -16,7 +16,7 @@ const RestaurantCard = ({restaurant}) => {
 //   };
 
   return (
-    <div className="bg-[#8db0b0] rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-teal-800 rounded-lg border border-[#093535] overflow-hidden hover:shadow-lg transition-shadow">
       {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
         <img
           src={
@@ -34,21 +34,21 @@ const RestaurantCard = ({restaurant}) => {
       </div> */}
 
       <div className="p-4">
-        <h3 className="font-semibold text-slate-900 mb-1 line-clamp-1">
+        <h3 className="font-semibold text-teal-300 mb-1 line-clamp-1">
           {restaurant.name}
         </h3>
-        <p className="text-sm text-slate-600 mb-3">Restaurant Location</p>
+        <p className="text-sm text-mist-300 mb-3">{restaurant.location}</p>
         <div className="flex items-center gap-2 mb-3">
           <span
             // className={`px-2 py-1 text-xs rounded ${cuisineColors[restaurant.cuisine]}`}
           >
-            Cuisine
+            {restaurant.cuisine}
           </span>
 
           <span
             // className={`px-2 py-1 text-xs rounded ${priceColors[restaurant.price]}`}
           >
-            Price
+            {restaurant.price}
             </span>
         </div>
 

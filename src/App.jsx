@@ -10,7 +10,7 @@ function App() {
   const { restaurants, setRestaurants } = useRestaurants();
 
   return (
-  <div className="min-h-screen bg-slate-200 text-slate-600 overflow-hidden">
+  <div className="min-h-screen bg-slate-200 text-teal-600 overflow-hidden">
     <h2>The App</h2>
     <NavBar />
     <UserDashboard restaurants={restaurants}/>

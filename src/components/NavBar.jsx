@@ -9,7 +9,7 @@
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-[120px]">
                 <div className="flex items-center gap-2">
-                <h1 className="text-3xl font-semibold text-slate-900">
+                <h1 className="text-3xl font-semibold text-teal-900">
                     Dinner Decider
                 </h1>
                 </div>
@@ -22,8 +22,8 @@
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg ${
                       isActive
-                        ? "bg-slate-900 text-white"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-teal-900 text-white"
+                        : "text-teal-600 hover:bg-slate-100"
                     }`
                   }
                 >
@@ -35,8 +35,8 @@
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg ${
                       isActive
-                        ? "bg-slate-900 text-white"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-teal-900 text-white"
+                        : "text-teal-600 hover:bg-slate-100"
                     }`
                   }
                 >
