@@ -1,10 +1,17 @@
-import React from 'react'
+import { Routes, Route } from "react-router-dom"
 import Wishlist from '../components/Wishlist'
+import Tried from '../components/Tried'
 
 const MyRestaurants = ({restaurants}) => {
   return (
       <div>
-        <Wishlist restaurants={restaurants} />
+        <Routes>
+          <Route index element={<Wishlist restaurants={restaurants} />} />
+          <Route path="/wishlist" element={<Wishlist restaurants={restaurants} />} />
+          <Route path="/tried" element={<Tried />} />
+
+        </Routes>
+        
 
       </div>
   )

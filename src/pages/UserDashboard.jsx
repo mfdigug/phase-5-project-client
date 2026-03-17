@@ -1,6 +1,7 @@
 import React from 'react'
 import MyRestaurants from './MyRestaurants'
 import MyEvents from './MyEvents'
+import NavBar from '../components/NavBar'
 import { Routes, Route } from 'react-router-dom'
 
 const UserDashboard = ({restaurants}) => {
@@ -10,10 +11,11 @@ const UserDashboard = ({restaurants}) => {
           <h1 className="text-4xl font-semibold text-teal-600 mb-2">
                   User Dashboard
           </h1>
+          <NavBar />
           <Routes>
-            <Route path="/" element={<MyRestaurants restaurants={restaurants}/>} />
-            <Route path="/events" element={<MyEvents />} />
-
+            <Route index element={<MyRestaurants restaurants={restaurants} />} />
+            <Route path="restaurants/*" element={<MyRestaurants restaurants={restaurants}/>} />
+            <Route path="events/*" element={<MyEvents />} />
           </Routes>
           
       </div>

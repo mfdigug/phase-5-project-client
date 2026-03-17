@@ -18,7 +18,7 @@
                 <div className="flex gap-4">
 
                 <NavLink
-                  to="/"
+                  to="/dashboard/restaurants"
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg ${
                       isActive
@@ -31,7 +31,7 @@
                 </NavLink>
 
                 <NavLink
-                  to="/events"
+                  to="dashboard/events"
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg ${
                       isActive
