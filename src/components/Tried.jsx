@@ -1,6 +1,6 @@
 import RestaurantCard from './RestaurantCard'
 
-const Wishlist = () => {
+const Tried = () => {
   return (
     <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
@@ -10,13 +10,13 @@ const Wishlist = () => {
               Tried
               </h2>
             
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   <RestaurantCard />
                   <RestaurantCard />
                   <RestaurantCard />
                   <RestaurantCard />
                   <RestaurantCard />     
-              </div>
+              </div> */}
         
           </div>
         </div>
@@ -25,4 +25,4 @@ const Wishlist = () => {
   )
 }
 
-export default Wishlist
+export default Tried

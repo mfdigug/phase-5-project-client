@@ -9,8 +9,8 @@ const MyEvents = () => {
 
         <Routes>
           <Route index element={<CreatedEvents />} />
-          <Route path="/created_events" element={<CreatedEvents />} />
-          <Route path="/invited" element={<Invited />} />
+          <Route path="created_events" element={<CreatedEvents />} />
+          <Route path="invited" element={<Invited />} />
 
         </Routes>
 

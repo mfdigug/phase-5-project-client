@@ -1,7 +1,10 @@
- import { NavLink } from 'react-router-dom'
+ import { NavLink, useLocation } from 'react-router-dom'
  
  export default function NavBar() {
   
+  const location = useLocation();
+  const isMyRestaurants = location.pathname.startsWith("/dashboard/restaurants")
+  const isMyEvents = location.pathname.startsWith("/dashboard/events")
 
   return (
     <div>
@@ -31,7 +34,7 @@
                 </NavLink>
 
                 <NavLink
-                  to="dashboard/events"
+                  to="/dashboard/events"
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg ${
                       isActive
@@ -44,30 +47,82 @@
                 </NavLink>
               </div>
 
-              {/* <div className="flex gap-2 mt-2 min-h-[40px]">
-                {isProfile && (
+              <div className="flex gap-2 mt-2 min-h-[40px]">
+                
+                {isMyRestaurants && (
                   <div className="flex gap-2 border-b border-slate-200">
                     <NavLink
-                      to="/userprofile/mybooks"
-                      className="flex items-center gap-2 px-4 py-3 border-b-2 transition-colors border-transparent text-slate-600 hover:text-slate-900"
+                      to="/dashboard/restaurants/wishlist"
+                      className={({isActive}) =>
+                        `flex items-center gap-2 px-4 py-3 border-b-2 text-slate-600 ${
+                          isActive
+                          ? "border-b-4 text-slate-600"
+                          : "transition-colors border-transparent hover:text-slate-900"
+                        }`
+                      }
                     >
-                      My Books
+                      Wishlist
                     </NavLink>
+
+
                     <NavLink
-                      to="/userprofile/requestedbooks"
-                      className="flex items-center gap-2 px-4 py-3 border-b-2 transition-colors border-transparent text-slate-600 hover:text-slate-900"
+                      to="/dashboard/restaurants/tried"
+                      className={({isActive}) =>
+                        `flex items-center gap-2 px-4 py-3 border-b-2 text-slate-600 ${
+                          isActive
+                          ? "border-b-4 text-slate-600"
+                          : "transition-colors border-transparent hover:text-slate-900"
+                        }`
+                      }
                     >
-                      Requested Books
+                      Tried
                     </NavLink>
+
+                    </div>
+                )}
+
+                  {/* 
                     <NavLink
-                      to="/userprofile/pendingrequests"
+                      to="/dashboard/restaurants/add"
                       className="flex items-center gap-2 px-4 py-3 border-b-2 transition-colors border-transparent text-slate-600 hover:text-slate-900"
                     >
-                      Pending Requests
+                      AddNewRestaurant
                     </NavLink>
+                     */}
+
+                    {isMyEvents && (
+                  <div className="flex gap-2 border-b border-slate-200">
+                    <NavLink
+                      to="/dashboard/events/created_events"
+                      className={({isActive}) =>
+                        `flex items-center gap-2 px-4 py-3 border-b-2 text-slate-600 ${
+                          isActive
+                          ? "border-b-4 text-slate-600"
+                          : "transition-colors border-transparent hover:text-slate-900"
+                        }`
+                      }
+                    >
+                      Created Events
+                    </NavLink>
+
+
+                    <NavLink
+                      to="/dashboard/events/invited"
+                      className={({isActive}) =>
+                        `flex items-center gap-2 px-4 py-3 border-b-2 text-slate-600 ${
+                          isActive
+                          ? "border-b-4 text-slate-600"
+                          : "transition-colors border-transparent hover:text-slate-900"
+                        }`
+                      }
+                    >
+                      Invited
+                    </NavLink>
+
+
                   </div>
                 )}
-              </div> */}
+              </div>
             </nav>
           </div>
         </div>
