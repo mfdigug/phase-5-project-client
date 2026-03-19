@@ -7,11 +7,12 @@ const Wishlist = () => {
   const { user } = useAuth();
   const { restaurants } = useRestaurants();
 
-  // console.log("User:", user);
-  // console.log("Restaurants:", user.restaurants)
 
-const wishlistRestaurants = user.restaurants.filter((restaurant) => restaurant.status === "wishlist")
 
+
+const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status === "wishlist")
+
+// console.log("User:", user);
   // console.log(wishlistRestaurants)
 
 

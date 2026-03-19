@@ -1,16 +1,17 @@
 import RestaurantCard from './RestaurantCard'
 import { useAuth } from "../context/AuthContext";
+import { useRestaurants } from "../context/RestaurantContext"
 
 const Tried = () => {
 
   const { user } = useAuth();
 
   console.log("User:", user);
-  console.log("Restaurants:", user.restaurants)
+  const { restaurants } = useRestaurants();
+  
+  const triedRestaurants = restaurants.filter((restaurant) => restaurant.status === "tried");
 
-  const triedRestaurants = user?.restaurants?.filter((restaurant) => restaurant.status === "tried") || [];
-
-  console.log(triedRestaurants)
+  // console.log(triedRestaurants)
 
 
   return (

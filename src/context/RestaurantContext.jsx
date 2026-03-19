@@ -17,7 +17,6 @@ export const RestaurantProvider = ({ children }) => {
                 const res = await fetch("/api/my_restaurants",{credentials: "include"});
                 if (res.ok) {
                     const data = await res.json();
-                    console.log(data)
                     setRestaurants(data);
                 } else {
                     setRestaurants ([])
