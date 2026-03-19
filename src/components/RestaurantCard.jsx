@@ -1,8 +1,10 @@
+import { useRestaurants } from "../context/RestaurantContext";
 
 const RestaurantCard = ({restaurant, showMarkTried}) => {
 
+const { markAsTried } = useRestaurants()
 
-  //styling
+ //styling
 //   const priceColors = {
 //     1: "bg-green-100 text-green-800",
 //     2: "bg-blue-100 text-blue-800",
@@ -61,7 +63,7 @@ const RestaurantCard = ({restaurant, showMarkTried}) => {
         )}
 */}
         {showMarkTried && (
-          <button>Mark as Tried</button>
+          <button onClick={() => markAsTried(restaurant.id)}>Mark as Tried</button>
         )}
 
       </div>

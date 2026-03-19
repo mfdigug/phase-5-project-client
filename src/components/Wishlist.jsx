@@ -1,18 +1,18 @@
 import RestaurantCard from './RestaurantCard'
 import { useAuth } from "../context/AuthContext";
-
+import { useRestaurants } from "../context/RestaurantContext"
 
 
 const Wishlist = () => {
   const { user } = useAuth();
+  const { restaurants } = useRestaurants();
 
-  console.log("User:", user);
-  console.log("Restaurants:", user.restaurants)
+  // console.log("User:", user);
+  // console.log("Restaurants:", user.restaurants)
 
-  const wishlistRestaurants = user.restaurants.filter((restaurant) => restaurant.status === "wishlist")
+const wishlistRestaurants = user.restaurants.filter((restaurant) => restaurant.status === "wishlist")
 
-  console.log(wishlistRestaurants)
-
+  // console.log(wishlistRestaurants)
 
 
 
