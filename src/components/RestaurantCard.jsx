@@ -1,5 +1,5 @@
 
-const RestaurantCard = ({restaurant}) => {
+const RestaurantCard = ({restaurant, showMarkTried}) => {
 
 
   //styling
@@ -59,10 +59,10 @@ const RestaurantCard = ({restaurant}) => {
             onClick={() => handleDeleteRestaurant(restaurantt.id)}
           />
         )}
-
+*/}
         {showMarkTried && (
-          <MarkTriedButton onClick={() => onMarkTried(restaurant.id)} />
-        )} */}
+          <button>Mark as Tried</button>
+        )}
 
       </div>
     </div>

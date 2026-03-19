@@ -43,38 +43,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
-//     const devLogin = async (userId) => {
-//     const res = await fetch("https://your-api.onrender.com/api/dev_login", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         credentials: "include",
-//         body: JSON.stringify({ user_id: userId }),
-//     });
-
-//     if (!res.ok) throw new Error("Dev login failed");
-
-//     const data = await res.json();
-//     setUser(data);
-// };
-
-    // const fetchMyRestaurants = async () => {
-    //     if (!user) return;
-    //     try {
-    //         const res = await fetch("/api/my_restaurants", {
-    //             credentials: "include"
-    //         });
-    //         if (res.ok) {
-    //             const data = await res.json();
-    //             setRestaurants(data);
-    //         } else {
-    //             setRestaurants([])
-    //         }
-    
-    //     } catch (err) {
-    //         console.error("Failed to fetch restaurants", err);
-    //         setRestaurants([])
-    //     }
-    // } 
 
     // const fetchMyEvents = async () => {
     //     if (!user) return;

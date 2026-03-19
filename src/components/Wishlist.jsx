@@ -9,6 +9,13 @@ const Wishlist = () => {
   console.log("User:", user);
   console.log("Restaurants:", user.restaurants)
 
+  const wishlistRestaurants = user.restaurants.filter((restaurant) => restaurant.status === "wishlist")
+
+  console.log(wishlistRestaurants)
+
+
+
+
   return (
     <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
@@ -19,8 +26,8 @@ const Wishlist = () => {
               </h2>
             
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {user.restaurants.map((restaurant) => (
-                      <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+                  {wishlistRestaurants.map((restaurant) => (
+                      <RestaurantCard key={restaurant.id} restaurant={restaurant} showMarkTried={true}/>
                 
              ))} 
 

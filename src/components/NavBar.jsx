@@ -1,10 +1,19 @@
- import { NavLink, useLocation } from 'react-router-dom'
+import { useNavigate, NavLink, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
  
- export default function NavBar() {
+export default function NavBar() {
   
   const location = useLocation();
   const isMyRestaurants = location.pathname.startsWith("/dashboard/restaurants")
   const isMyEvents = location.pathname.startsWith("/dashboard/events")
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogoutClick = async () => {
+    await logout();
+    navigate("/login")
+
+  }
 
   return (
     <div>
@@ -15,6 +24,7 @@
                 <h1 className="text-3xl font-semibold text-teal-900">
                     Dinner Decider
                 </h1>
+                <button onClick={handleLogoutClick}>Logout</button>
                 </div>
 
                 <nav className="flex flex-col items-end justify-center h-full">
