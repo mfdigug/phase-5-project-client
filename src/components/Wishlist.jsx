@@ -1,10 +1,14 @@
 import RestaurantCard from './RestaurantCard'
+import { useAuth } from "../context/AuthContext";
 
 
 
-const Wishlist = ({ restaurants }) => {
+const Wishlist = () => {
+  const { user } = useAuth();
 
-  console.log(restaurants)
+  console.log("User:", user);
+  console.log("Restaurants:", user.restaurants)
+
   return (
     <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
@@ -15,7 +19,7 @@ const Wishlist = ({ restaurants }) => {
               </h2>
             
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {restaurants.map((restaurant) => (
+                  {user.restaurants.map((restaurant) => (
                       <RestaurantCard key={restaurant.id} restaurant={restaurant} />
                 
              ))} 
