@@ -1,24 +1,35 @@
 import { useRestaurants } from "../context/RestaurantContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+
 
 const RestaurantCard = ({restaurant, showMarkTried}) => {
 
 const { markAsTried } = useRestaurants()
 
- //styling
-//   const priceColors = {
-//     1: "bg-green-100 text-green-800",
-//     2: "bg-blue-100 text-blue-800",
-//     3: "bg-yellow-100 text-yellow-800",
-//     4: "bg-orange-100 text-orange-800",
-//     5: "bg-red-100 text-red-800",
-//   };
+const priceLabels = {
+  1: "$",
+  2: "$$",
+  3: "$$$",
+  4: "$$$$",
+  5: "$$$$$",
+};
+
+
+const priceColors = {
+  1: "bg-green-100 text-green-800",
+  2: "bg-blue-100 text-blue-800",
+  3: "bg-yellow-100 text-yellow-800",
+  4: "bg-orange-100 text-orange-800",
+  5: "bg-red-100 text-red-800",
+};
 
 //   const cuisineColors = {
 //    
 //   };
 
   return (
-    <div className="bg-teal-800 rounded-lg border border-[#093535] overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-teal-900 rounded-xl border border-teal-800 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
       {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
         <img
           src={
@@ -35,23 +46,29 @@ const { markAsTried } = useRestaurants()
         />
       </div> */}
 
-      <div className="p-4">
-        <h3 className="font-semibold text-teal-300 mb-1 line-clamp-1">
-          {restaurant.name}
-        </h3>
-        <p className="text-sm text-mist-300 mb-3">{restaurant.location}</p>
-        <div className="flex items-center gap-2 mb-3">
-          <span
-            // className={`px-2 py-1 text-xs rounded ${cuisineColors[restaurant.cuisine]}`}
+      <div className="p-4 space-y-2">
+        <div>
+          <h3 className="text-lg font-semibold text-white line-clamp-1 tracking-tight">
+            {restaurant.name}
+          </h3>
+
+          <div className="mt-1 h-0.5 w-full bg-teal-500/30 rounded-full" />
+        </div>
+
+        <p className="text-sm text-slate-400 mb-3 flex items-center gap-2"> <FontAwesomeIcon icon={faLocationDot} />
+        {restaurant.location}</p>
+        
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span className="px-2 py-1 text-xs rounded-full bg-teal-700 text-teal-100"
+            // ${cuisineColors[restaurant.cuisine]}`}
           >
             {restaurant.cuisine}
           </span>
 
-          <span
-            // className={`px-2 py-1 text-xs rounded ${priceColors[restaurant.price]}`}
-          >
-            {restaurant.price_range}
-            </span>
+          <span className={`px-2 py-1 text-xs rounded-full ${priceColors[restaurant.price_range]}`}>
+            {priceLabels[restaurant.price_range]}
+          </span>
+        
         </div>
 
         {/* buttons logic & components */}
@@ -63,7 +80,10 @@ const { markAsTried } = useRestaurants()
         )}
 */}
         {showMarkTried && (
-          <button onClick={() => markAsTried(restaurant.id)}>Mark as Tried</button>
+          <button onClick={() => markAsTried(restaurant.id)}
+          className="px-3 py-1 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-500 active:scale-95 transition">
+            Mark as Tried
+          </button>
         )}
 
       </div>

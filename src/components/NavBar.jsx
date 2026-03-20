@@ -20,12 +20,16 @@ export default function NavBar() {
         <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-[120px]">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col justify-center h-full">
                 <h1 className="text-3xl font-semibold text-teal-900">
                     Dinner Decider
                 </h1>
-                <button onClick={handleLogoutClick}>Logout</button>
-                </div>
+                <button onClick={handleLogoutClick}
+                className="mt-2 text-sm px-3 py-1 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition w-fit"
+                >
+                  Logout
+                </button>
+              </div>
 
                 <nav className="flex flex-col items-end justify-center h-full">
                 <div className="flex gap-4">
