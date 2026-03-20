@@ -50,7 +50,7 @@ const { markAsTried } = useRestaurants()
           <span
             // className={`px-2 py-1 text-xs rounded ${priceColors[restaurant.price]}`}
           >
-            {restaurant.price}
+            {restaurant.price_range}
             </span>
         </div>
 
