@@ -27,34 +27,51 @@ function Login() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      
-        <label htmlFor="email">Email</label>
+    <form 
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 p-6 max-w-md mx-auto">
+        
+      <div className="flex flex-col">
+        <label 
+          htmlFor="email"
+          className="mb-1 text-sm font-medium"
+        >
+          Email
+        </label>
         <input
           type="text"
           id="email"
           autoComplete="off"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="border rounded px-3 py-2"
         />
-      
+      </div>
 
-      
-        <label htmlFor="password">Password</label>
+      <div className="flex flex-col">
+        <label 
+          htmlFor="password"
+          className="mb-1 text-sm font-medium"
+        >
+          Password
+        </label>
         <input
           type="password"
           id="password"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="border rounded px-3 py-2"
         />
+      </div>
       
-      
-        <button type="submit">
+        <button 
+          type="submit"
+          className="mt-2 bg-teal-500 text-white py-2 rounded hover:bg-teal-600"
+        >
           {isLoading ? "Loading..." : "Login"}
         </button>
       
-
     </form>
   );
 }
