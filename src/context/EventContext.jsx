@@ -36,8 +36,45 @@ export const EventProvider = ({ children }) => {
 
         }, [user]);
 
+        const updateRSVP = async (id, rsvp_status) => {
+
+        const payload = { rsvp_status };
+
+        console.log("Sending PATCH request:", {
+            id,
+            payload
+        });
+
+        const res = await fetch(`/api/event_participants/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error("Failed");
+
+        const updated = await res.json();
+
+        setEvents(prev => ({
+            ...prev,
+            invited: prev.invited.map(event => ({
+                ...event,
+                participants: event.participants.map(ep =>
+                    ep.id === updated.id
+                    ? { ...ep, ...updated }
+                    : ep
+                )
+            }))
+        })
+        );
+    };
+
+
     return (
-        <EventContext.Provider value={{ events, setEvents }}>
+        <EventContext.Provider value={{ events, setEvents, updateRSVP }}>
             {children}
         </EventContext.Provider>
     );

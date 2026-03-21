@@ -1,9 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faClock, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { formatDateTime } from "../utils/formatDateTime";
-
+import { useEvents } from "../context/EventContext"
+import { useAuth } from "../context/AuthContext"
 
 const EventCard = ({ event, showGenerateRestaurant, showRSVP }) => {
+
+  const { user } = useAuth();
+  const MyEP = event.participants.find(p => p.user_id === user.id)
+  const myRSVPStatus = MyEP?.rsvp_status;
+
+  const { updateRSVP } = useEvents();
+  
 
   const rsvpIcon = {
     accepted: faCheckCircle,
@@ -84,17 +92,31 @@ const priceColors = {
       <div className="flex flex-wrap gap-2 mt-2">
         {showRSVP && (
           <>
+          <div className="text-xs mt-2 text-white/80">
+            Your RSVP: <strong>{myRSVPStatus}</strong>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-2">
             <button 
-            // onClick={() => markAsAttending(event.id)}
-            className="px-3 py-1 text-sm rounded-md bg-green-600 text-white hover:bg-green-500 active:scale-95 transition">
-              Accept
+            onClick={() => MyEP && updateRSVP(MyEP.id, "accepted")}
+            className={`px-3 py-1 text-sm rounded-md transition active:scale-95 ${
+              myRSVPStatus === "accepted"
+              ? "bg-green-800 text-white"
+              : "bg-green-600 text-white hover:bg-green-500"
+            }`}>
+              {myRSVPStatus === "accepted" ? "Accepted" : "Accept"}
             </button>
+
+
             <button
-            // onClick={() => markAsDeclined(event.id)}
-            className="px-3 py-1 text-sm rounded-md bg-red-600 text-white hover:bg-red-500 active:scale-95 transition"
-            >
-              Decline
+            onClick={() => MyEP && updateRSVP(MyEP.id, "declined")}
+            className={`px-3 py-1 text-sm rounded-md transition active:scale-95 ${
+              myRSVPStatus === "declined"
+              ? "bg-red-800 text-white"
+              : "bg-red-600 text-white hover:bg-red-500"
+            }`}>
+              {myRSVPStatus === "declined" ? "Declined" : "Decline"}
             </button>
+            </div>
           </>
         )}
 
