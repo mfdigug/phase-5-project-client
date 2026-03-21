@@ -72,9 +72,34 @@ export const EventProvider = ({ children }) => {
         );
     };
 
+    const generateRestaurant = async (eventId) => {
+
+        const res = await fetch(`/api/events/${eventId}/generate_restaurant`, {
+            method: "POST",
+            credentials: "include"
+        });
+
+        if (!res.ok) throw new Error("Failed to generate restaurant");
+
+        const data = await res.json();
+        console.log("FULL RESPONSE:", data);
+        
+        const chosenRestaurant = data.chosen;
+
+        setEvents(prev => ({
+            ...prev,
+            created: prev.created.map(event =>
+                event.id === Number(eventId)
+                ? { ...event, selected_restaurant: chosenRestaurant }
+                : event
+            ),
+
+        }));
+    }
+
 
     return (
-        <EventContext.Provider value={{ events, setEvents, updateRSVP }}>
+        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant }}>
             {children}
         </EventContext.Provider>
     );

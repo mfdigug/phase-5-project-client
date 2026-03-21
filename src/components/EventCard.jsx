@@ -10,7 +10,7 @@ const EventCard = ({ event, showGenerateRestaurant, showRSVP }) => {
   const MyEP = event.participants.find(p => p.user_id === user.id)
   const myRSVPStatus = MyEP?.rsvp_status;
 
-  const { updateRSVP } = useEvents();
+  const { updateRSVP, generateRestaurant } = useEvents();
   
 
   const rsvpIcon = {
@@ -121,12 +121,18 @@ const priceColors = {
         )}
 
         {showGenerateRestaurant && (
-          <button
-          // onClick={() => onGenerate()}
-          className="px-3 py-1 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-500 active:scale-95 transition"
-          >
-            Generate Restaurant
-          </button>        
+          event.selected_restaurant ? (
+            <div className="text-sm text-white mt-2">
+              Selected Restaurant: {event.selected_restaurant.name} at {event.selected_restaurant.location}
+            </div>
+          ) : (
+            <button
+              onClick={() => generateRestaurant(event.id)}
+              className="px-3 py-1 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-500 active:scale-95 transition"
+            >
+              Generate Restaurant
+            </button>
+  )     
         )}
 
       </div>
