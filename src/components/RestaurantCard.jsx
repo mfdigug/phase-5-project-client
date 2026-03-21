@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 
-const RestaurantCard = ({restaurant, showMarkTried}) => {
+const RestaurantCard = ({ restaurant, mode }) => {
 
-const { markAsTried } = useRestaurants()
+const { updateRestaurantStatus } = useRestaurants()
 
 const priceLabels = {
   1: "$",
@@ -79,12 +79,19 @@ const priceColors = {
           />
         )}
 */}
-        {showMarkTried && (
-          <button onClick={() => markAsTried(restaurant.id)}
-          className="px-3 py-1 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-500 active:scale-95 transition">
-            Mark as Tried
+       
+          <button 
+          onClick={() => updateRestaurantStatus(restaurant.id,
+            mode === "tried" ? "wishlist" : "tried"
+          )}
+          className={`px-3 py-1 text-sm rounded-md text-white transition active:scale-95 ${
+            mode === "tried"
+            ? "bg-indigo-600 hover:bg-indigo-500"
+            : "bg-teal-600 hover:bg-teal-500"
+          }`}>
+            {mode === "tried" ? "Add to Wishlist" : "Mark as Tried"}
           </button>
-        )}
+
 
       </div>
     </div>

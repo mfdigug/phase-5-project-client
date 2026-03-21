@@ -31,9 +31,9 @@ export const RestaurantProvider = ({ children }) => {
 
     }, [user]);
 
-    const markAsTried = async (id) => {
+    const updateRestaurantStatus = async (id, status) => {
 
-        const payload = { status: "tried" };
+        const payload = { status };
 
         console.log("Sending PATCH request:", {
             id,
@@ -46,20 +46,22 @@ export const RestaurantProvider = ({ children }) => {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({status: "tried"}),
+            body: JSON.stringify(payload),
         });
 
         if (!res.ok) throw new Error("Failed");
 
         const updated = await res.json();
-        setRestaurants(prev => prev.map(r => r.id === id ?updated : r));
+        setRestaurants(prev => 
+            prev.map(r => (r.id === id ? updated : r))
+        );
     };
 
    return (
         <RestaurantContext.Provider value={{
             restaurants,
             setRestaurants,
-            markAsTried
+            updateRestaurantStatus
         }}>
             {children}
         </RestaurantContext.Provider>

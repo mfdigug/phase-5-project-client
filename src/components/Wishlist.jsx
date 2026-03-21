@@ -27,7 +27,7 @@ const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status
       
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {wishlistRestaurants.map((restaurant) => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} showMarkTried={true}/>
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="wishlist"/>
           
         ))} 
 
