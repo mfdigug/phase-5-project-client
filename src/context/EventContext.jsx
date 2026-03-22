@@ -97,9 +97,32 @@ export const EventProvider = ({ children }) => {
         }));
     }
 
+    const createEvent = async (eventData) => {
+        const res = await fetch("/api/events", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(eventData)
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            console.error("Failed to add event:", err);
+            throw new Error("Failed to add event")
+        }
+
+        const newEvent = await res.json();
+        setEvents((prev) => ({
+            ...prev,
+            created: [...prev, newEvent]
+        }))
+    }
+
 
     return (
-        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant }}>
+        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant, createEvent }}>
             {children}
         </EventContext.Provider>
     );

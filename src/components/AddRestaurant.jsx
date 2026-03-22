@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -8,8 +7,6 @@ import { useAuth } from "../context/AuthContext";
 const AddRestaurant = () => {
 
   const navigate = useNavigate();
-  const [newRestaurant, setNewRestaurant] = useState([{}]);
-  const [refreshPage, setRefreshPage] = useState(false);
   const { addRestaurant } = useRestaurants() 
   const { user } = useAuth();
   

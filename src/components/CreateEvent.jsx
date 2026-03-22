@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -9,9 +8,7 @@ import { useAuth } from "../context/AuthContext";
 const CreateEvent = () => {
 
   const navigate = useNavigate();
-  const [newEvent, setNewEvent] = useState([{}]);
-  const [refreshPage, setRefreshPage] = useState(false);
-  const { addEvent } = useEvents() 
+  const { createEvent } = useEvents() 
   const { user } = useAuth();
   
   const formSchema = yup.object().shape({
@@ -20,7 +17,8 @@ const CreateEvent = () => {
     cuisine_filter: yup.string().required("Cuisine required"),
     location_filter: yup.string().required("Location required"),
     price_filter: yup.string().required("Select a price category"),
-  });
+    invitees: yup.array().of(yup.string().trim().min(1)).min(1, "Add at least one invitee").required()
+});
 
   const priceMap = {
     $: 1,
@@ -38,28 +36,26 @@ const CreateEvent = () => {
         cuisine_filter: "",
         location_filter: "",
         price_filter: "",
+        invitees: []
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
         const payload = {
             ...values,
-            price_range: priceMap[values.price_range],
-            //participants?
+            price_filter: priceMap[values.price_filter],
+            created_by: user.id,
+            invitees: values.invitees
         };
-        console.log("FINAL PAYLOAD:", payload)
+        try {
+            await createEvent(payload);
+            formik.resetForm();
+            navigate("/dashboard/events/created_events");
+        } catch (err) {
+            console.error(err)
+        }   
     }
     })
 
-            // try {
-        //     await addEvent(payload);
-        //     console.log("FINAL PAYLOAD:", payload)
-        //     formik.resetForm();
-        //     navigate("/dashboard/events/created_events");
-        // } catch (err) {
-        //     console.error(err)
-        // }   
-
-  
   
     return (
     <form 
@@ -118,7 +114,7 @@ const CreateEvent = () => {
             value={formik.values.cuisine_filter}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine}</p>
+            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine_filter}</p>
         
         </div>
    
@@ -136,7 +132,7 @@ const CreateEvent = () => {
             value={formik.values.location_filter}
             />
         
-           <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.location}</p>
+           <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.location_filter}</p>
         
         </div>
 
@@ -171,6 +167,34 @@ const CreateEvent = () => {
                 </p>
 
             </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label className="block text-sm font-medium text-slate-600 self-center">
+                Invite other users:
+            </label>
+            <input
+                type="text"
+                name="invitees"
+                placeholder="Enter usernames separated by commas"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                value={formik.values.invitees.join(", ")  || ""}
+                onChange={(e) =>
+                    formik.setFieldValue(
+                        "invitees",
+                        e.target.value
+                            .split(",")
+                            .map(name => name.trim())
+                            .filter(name => name.length > 0)
+                    )
+                }
+            />
+
+            <p className="text-red-400 text-sm min-h-[18px] mt-1">
+                {formik.errors.invitees}
+            </p>
+
+
         </div>
     
     <button 
