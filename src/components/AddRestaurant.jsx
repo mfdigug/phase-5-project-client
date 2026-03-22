@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -10,7 +10,7 @@ const AddRestaurant = () => {
   const navigate = useNavigate();
   const [newRestaurant, setNewRestaurant] = useState([{}]);
   const [refreshPage, setRefreshPage] = useState(false);
-  const { addRestaurant } = useRestaurants() //not written yet
+  const { addRestaurant } = useRestaurants() 
   const { user } = useAuth();
   
   const formSchema = yup.object().shape({
@@ -18,7 +18,7 @@ const AddRestaurant = () => {
     cuisine: yup.string().required("Cuisine required"),
     location: yup.string().required("Location required"),
     price_range: yup.string().required("Select a price category"),
-   //status & suggested_by hadndled in onsubmit?
+   
   });
 
   const priceMap = {
