@@ -10,6 +10,7 @@ import Wishlist from "./components/Wishlist";
 import Tried from "./components/Tried";
 import CreatedEvents from "./components/CreatedEvents";
 import Invited from "./components/Invited";
+import AddRestaurant from "./components/AddRestaurant"
 
 function App() {
   const { user } = useAuth();
@@ -35,6 +36,7 @@ function App() {
         <Route index element={<Wishlist />} />
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="tried" element={<Tried />} />
+        <Route path="add_restaurant" element={<AddRestaurant />} />
       </Route>
 
       <Route path="events" element={<MyEvents />}>
