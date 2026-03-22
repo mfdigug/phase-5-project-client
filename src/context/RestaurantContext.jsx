@@ -57,11 +57,35 @@ export const RestaurantProvider = ({ children }) => {
         );
     };
 
+    const addRestaurant = async (restaurantData) => {
+        const res = await fetch("/api/restaurants", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(restaurantData)
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            console.error("Failed to add restaurant:", err);
+            throw new Error("Failed to add restaurant")
+        }
+
+        const newRestaurant = await res.json();
+        setRestaurants((prev) => [...prev, newRestaurant])
+    }
+
+
+    
+
    return (
         <RestaurantContext.Provider value={{
             restaurants,
             setRestaurants,
-            updateRestaurantStatus
+            updateRestaurantStatus,
+            addRestaurant
         }}>
             {children}
         </RestaurantContext.Provider>
