@@ -1,7 +1,58 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useRestaurants } from "../context/RestaurantContext";
+import { useAuth } from "../context/AuthContext";
 
 const AddRestaurant = () => {
-  return (
+  
+  const [newRestaurant, setNewRestaurant] = useState([{}]);
+  const [refreshPage, setRefreshPage] = useState(false);
+  const { addRestaurant } = useRestaurants() //not written yet
+  const { user } = useAuth();
+  
+  const formSchema = yup.object().shape({
+    name: yup.string().required("Name required"),
+    cuisine: yup.string().required("Cuisine required"),
+    location: yup.string().required("Location required"),
+    price_range: yup.number().required("Select a price category"),
+   //status & suggested_by hadndled in onsubmit?
+  });
+
+  const priceMap = {
+    $: 1,
+    $$: 2,
+    $$$: 3,
+    $$$$: 4,
+    $$$$$: 5,
+  }
+
+
+  const formik = useFormik({
+    initialValues: {
+        name: "",
+        cuisine: "",
+        location: "",
+        price_range: "",
+    },
+    validationSchema: formSchema,
+    onSubmit: (values) => {
+        const payload = {
+            ...values,
+            price_range: priceMap[values.price_range],
+            suggested_by: user.id,
+            status: "wishlist"
+        };
+
+        console.log("FINAL PAYLOAD:", payload)
+        //addRestaurant(values)
+    }
+
+  })
+
+  
+  
+    return (
     <form className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow space-y-4">
         <h2 className="text-2xl font-semibold text-slate-700">
             Add a New Restaurant
@@ -16,6 +67,8 @@ const AddRestaurant = () => {
             type="text"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="Restaurant name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
             />
        
 
@@ -27,6 +80,8 @@ const AddRestaurant = () => {
             type="text"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline=-none focus:ring-2 focus:ring-teal-400"
             placeholder="e.g. Italian"
+            onChange={formik.handleChange}
+            value={formik.values.cuisine}
             />
    
 
@@ -38,6 +93,8 @@ const AddRestaurant = () => {
             type="text"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline=-none focus:ring-2 focus:ring-teal-400"
             placeholder="Suburb"
+            onChange={formik.handleChange}
+            value={formik.values.location}
             />
      
 
@@ -53,7 +110,10 @@ const AddRestaurant = () => {
                          type="radio"
                          name="price"
                          value={price}
+                         onChange={formik.handleChange}
+                         checked={formik.values.price_range === price}
                          className="text-teal-500 focus:ring-teal-400" 
+                        
                         />
                         <span className="text-slate-700">{price}</span>
 
