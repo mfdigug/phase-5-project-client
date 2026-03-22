@@ -11,6 +11,7 @@ import Tried from "./components/Tried";
 import CreatedEvents from "./components/CreatedEvents";
 import Invited from "./components/Invited";
 import AddRestaurant from "./components/AddRestaurant"
+import CreateEvent from "./components/CreateEvent"
 
 function App() {
   const { user } = useAuth();
@@ -43,6 +44,7 @@ function App() {
         <Route index element={<CreatedEvents />} />
         <Route path="created_events" element={<CreatedEvents />} />
         <Route path="invited" element={<Invited />} />
+        <Route path="create_event" element={<CreateEvent />} />
       </Route>
 
 
