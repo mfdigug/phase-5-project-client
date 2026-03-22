@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRestaurants } from "../context/RestaurantContext";
 import { useAuth } from "../context/AuthContext";
 
 const AddRestaurant = () => {
-  
+
+  const navigate = useNavigate();
   const [newRestaurant, setNewRestaurant] = useState([{}]);
   const [refreshPage, setRefreshPage] = useState(false);
   const { addRestaurant } = useRestaurants() //not written yet
@@ -47,6 +49,7 @@ const AddRestaurant = () => {
             await addRestaurant(payload);
             console.log("FINAL PAYLOAD:", payload)
             formik.resetForm();
+            navigate("/dashboard/restaurants/wishlist");
         } catch (err) {
             console.error(err)
         }   
@@ -150,7 +153,14 @@ const AddRestaurant = () => {
             </div>
         </div>
     
-    <button type="submit">Submit</button>
+    <button 
+    type="submit"
+    className="w-full bg-teal-500 text-white font-medium py-2.5 rounded-lg mt-4
+           hover:bg-teal-600 active:scale-[0.98] transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+    >
+        Submit
+    </button>
 
     </form>
   )
