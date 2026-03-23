@@ -121,9 +121,31 @@ export const EventProvider = ({ children }) => {
         }))
     }
 
+        const deleteEvent = async (id) => {
+        const res = await fetch(`/api/events/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+
+        console.log("DELETE status:", res.status);
+
+        if (!res.ok) {
+            const text = await res.text();
+            console.error("DELETE failed:", text)
+            throw new Error("Failed to delete event");
+        } 
+
+        setEvents(prev => ({
+            ...prev,
+            created: prev.created.filter(e => e.id !== id)
+        })
+            
+        );
+    }
+
 
     return (
-        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant, createEvent }}>
+        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant, createEvent, deleteEvent }}>
             {children}
         </EventContext.Provider>
     );

@@ -1,11 +1,12 @@
 import { useRestaurants } from "../context/RestaurantContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 
 const RestaurantCard = ({ restaurant, mode }) => {
 
-const { updateRestaurantStatus } = useRestaurants()
+const { updateRestaurantStatus, rateRestaurant, deleteRestaurant } = useRestaurants()
 
 const priceLabels = {
   1: "$",
@@ -27,6 +28,28 @@ const priceColors = {
 //   const cuisineColors = {
 //    
 //   };
+
+const renderStars = (rating = 0, onRate) => {
+  return [...Array(5)].map((_, i) => {
+    const value = i + 1;
+    const filled = value <= rating;
+    return (
+      <button
+        key={i}
+        type="button"
+        onClick={() => onRate(value)}
+        className="focus:outline-none"
+      > 
+        <FontAwesomeIcon
+        icon={filled ? solidStar : emptyStar} 
+        className={`text-lg transition ${
+          filled ? "text-yellow-400" : "text-slate-500"
+        }`}
+        /> 
+      </button>
+    ) 
+  }
+)}
 
   return (
     <div className="bg-teal-900 rounded-xl border border-teal-800 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
@@ -70,17 +93,9 @@ const priceColors = {
           </span>
         
         </div>
-
-        {/* buttons logic & components */}
-{/* 
-        {showDeleteRestaurantt && (
-          <DeleteRestaurantButton
-            onClick={() => handleDeleteRestaurant(restaurantt.id)}
-          />
-        )}
-*/}
-       
-          <button 
+        
+        <div className="flex items-center gap-4 justify-between">
+        <button 
           onClick={() => updateRestaurantStatus(restaurant.id,
             mode === "tried" ? "wishlist" : "tried"
           )}
@@ -90,7 +105,28 @@ const priceColors = {
             : "bg-teal-600 hover:bg-teal-500"
           }`}>
             {mode === "tried" ? "Add to Wishlist" : "Mark as Tried"}
-          </button>
+         </button>
+
+        {mode === "wishlist" && (
+          <button
+            onClick={() => deleteRestaurant(restaurant.id)}
+            className="bg-red-600 px-3 py-1 text-sm rounded-md text-white transition hover:bg-red-500 active:scale-95"
+          >
+          Delete Restaurant
+        </button>
+        )}
+
+        {mode === "tried" && (
+          <div className="flex gap-1">
+            {renderStars(restaurant.rating, (value => {
+              console.log("Rated", value)
+              rateRestaurant(restaurant.id, value)
+            }))}
+          
+          </div>
+        )}
+        
+        </div>
 
 
       </div>

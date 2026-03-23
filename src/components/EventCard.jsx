@@ -4,13 +4,13 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { useEvents } from "../context/EventContext"
 import { useAuth } from "../context/AuthContext"
 
-const EventCard = ({ event, showGenerateRestaurant, showRSVP }) => {
+const EventCard = ({ event, showGenerateRestaurant, showRSVP, showDeleteEvent }) => {
 
   const { user } = useAuth();
   const MyEP = event.participants.find(p => p.user_id === user.id)
   const myRSVPStatus = MyEP?.rsvp_status;
 
-  const { updateRSVP, generateRestaurant } = useEvents();
+  const { updateRSVP, generateRestaurant, deleteEvent } = useEvents();
   
 
   const rsvpIcon = {
@@ -41,6 +41,7 @@ const priceColors = {
   4: "bg-orange-100 text-orange-800",
   5: "bg-red-100 text-red-800",
 };
+
 
   return (
     <div className="bg-[#8db0b0] rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
@@ -132,7 +133,16 @@ const priceColors = {
             >
               Generate Restaurant
             </button>
-  )     
+          )     
+        )}
+
+        {showDeleteEvent && (
+          <button
+            onClick={() => deleteEvent(event.id)}
+            className="bg-red-600 px-3 py-1 text-sm rounded-md text-white transition hover:bg-red-500 active:scale-95"
+          >
+            Delete Event
+          </button>
         )}
 
       </div>

@@ -57,6 +57,25 @@ export const RestaurantProvider = ({ children }) => {
         );
     };
 
+    const rateRestaurant = async (id, rating) => {
+        const res = await fetch(`/api/restaurants/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ rating }),
+        });
+
+        if (!res.ok) throw new Error("Failed to rate restaurant");
+
+        const updated = await res.json();
+
+        setRestaurants(prev => 
+            prev.map(r => (r.id === id ? updated : r))
+        )
+    }
+
     const addRestaurant = async (restaurantData) => {
         const res = await fetch("/api/restaurants", {
             method: "POST",
@@ -78,6 +97,25 @@ export const RestaurantProvider = ({ children }) => {
     }
 
 
+    const deleteRestaurant = async (id) => {
+        const res = await fetch(`/api/restaurants/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+
+        console.log("DELETE status:", res.status);
+
+        if (!res.ok) {
+            const text = await res.text();
+            console.error("DELETE failed:", text)
+            throw new Error("Failed to delete restaurant");
+        } 
+
+
+        setRestaurants(prev => prev.filter(r => r.id !== id));
+    }
+
+
     
 
    return (
@@ -85,7 +123,9 @@ export const RestaurantProvider = ({ children }) => {
             restaurants,
             setRestaurants,
             updateRestaurantStatus,
-            addRestaurant
+            rateRestaurant,
+            addRestaurant,
+            deleteRestaurant
         }}>
             {children}
         </RestaurantContext.Provider>
