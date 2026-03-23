@@ -11,6 +11,7 @@ const CreateEvent = () => {
   const { createEvent } = useEvents() 
   const { user } = useAuth();
   
+
   const formSchema = yup.object().shape({
     title: yup.string().required("Name required"),
     date: yup.string().required("Please select a date and time"),
@@ -178,14 +179,13 @@ const CreateEvent = () => {
                 name="invitees"
                 placeholder="Enter usernames separated by commas"
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-                value={formik.values.invitees.join(", ")  || ""}
+                value={(formik.values.invitees || []).join(", ")}
                 onChange={(e) =>
                     formik.setFieldValue(
                         "invitees",
                         e.target.value
                             .split(",")
                             .map(name => name.trim())
-                            .filter(name => name.length > 0)
                     )
                 }
             />
