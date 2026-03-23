@@ -121,8 +121,9 @@ const priceColors = {
           </>
         )}
 
-        {showGenerateRestaurant && (
-          event.selected_restaurant ? (
+        {showGenerateRestaurant ? (
+          <>
+          {event.selected_restaurant ? (
             <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
     
               <p className="text-xs text-teal-300 uppercase tracking-wide">
@@ -137,6 +138,10 @@ const priceColors = {
                 📍 {event.selected_restaurant.location}
               </p>
 
+              {event.selected_restaurant.cuisine && (
+              <p className="text-xs text-teal-200 mt-1">
+                {event.selected_restaurant.cuisine}
+              </p>)}
             </div>
           ) : (
             <button
@@ -145,9 +150,36 @@ const priceColors = {
             >
               Generate Restaurant
             </button>
-          )     
-        )}
+          )}
+          </>
+      
+      ) : (
+        <>
+        {event.selected_restaurant && (
+            <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
+    
+              <p className="text-xs text-teal-300 uppercase tracking-wide">
+                🍽️ Selected Restaurant
+              </p>
 
+              <h4 className="text-white font-semibold text-lg">
+                {event.selected_restaurant.name}
+              </h4>
+
+              <p className="text-sm text-slate-300">
+                📍 {event.selected_restaurant.location}
+              </p>
+
+              {event.selected_restaurant.cuisine && (
+              <p className="text-xs text-teal-200 mt-1">
+                {event.selected_restaurant.cuisine}
+              </p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+        
         {showDeleteEvent && (
           <button
             onClick={() => deleteEvent(event.id)}
