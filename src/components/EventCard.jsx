@@ -54,6 +54,7 @@ const priceColors = {
         </div>
         <p className="text-sm text-slate-600 mb-3">{formatDateTime(event.date)}</p>
         
+        {!event.selected_restaurant && (
         <div className="flex flex-col items-start gap-2 mb-3">
           <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">
             Location Filter: {event.location_filter}
@@ -66,6 +67,37 @@ const priceColors = {
             {priceLabels[event.price_filter]}
           </span>
         </div>
+        )}
+
+        {event.selected_restaurant && (
+            <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
+    
+              <p className="text-xs text-teal-300 uppercase tracking-wide">
+                🍽️ Selected Restaurant
+              </p>
+
+              <h4 className="text-white font-semibold text-lg">
+                {event.selected_restaurant.name}
+              </h4>
+
+              <p className="text-sm text-slate-300">
+                📍 {event.selected_restaurant.location}
+              </p>
+
+              <div className="flex justify-between items-center mt-2">
+
+              <p className="text-xs text-teal-200 mt-1">
+                {event.selected_restaurant.cuisine}
+              </p>
+
+              {event.price_filter && (
+              <span className={`text-xs px-2 py-1 rounded ${priceColors[event.price_filter]}`}>
+                {priceLabels[event.price_filter]}
+              </span>
+              )}
+              </div>
+            </div>
+          )}
 
         <div>
           <h3 className="text-white font-semibold mb-2">Attendees</h3>
@@ -121,64 +153,14 @@ const priceColors = {
           </>
         )}
 
-        {showGenerateRestaurant ? (
-          <>
-          {event.selected_restaurant ? (
-            <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
-    
-              <p className="text-xs text-teal-300 uppercase tracking-wide">
-                🍽️ Selected Restaurant
-              </p>
-
-              <h4 className="text-white font-semibold text-lg">
-                {event.selected_restaurant.name}
-              </h4>
-
-              <p className="text-sm text-slate-300">
-                📍 {event.selected_restaurant.location}
-              </p>
-
-              {event.selected_restaurant.cuisine && (
-              <p className="text-xs text-teal-200 mt-1">
-                {event.selected_restaurant.cuisine}
-              </p>)}
-            </div>
-          ) : (
+        {showGenerateRestaurant && !event.selected_restaurant && (
             <button
               onClick={() => generateRestaurant(event.id)}
               className="px-3 py-1 text-sm rounded-md bg-teal-600 text-white hover:bg-teal-500 active:scale-95 transition"
             >
               Generate Restaurant
             </button>
-          )}
-          </>
-      
-      ) : (
-        <>
-        {event.selected_restaurant && (
-            <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
-    
-              <p className="text-xs text-teal-300 uppercase tracking-wide">
-                🍽️ Selected Restaurant
-              </p>
-
-              <h4 className="text-white font-semibold text-lg">
-                {event.selected_restaurant.name}
-              </h4>
-
-              <p className="text-sm text-slate-300">
-                📍 {event.selected_restaurant.location}
-              </p>
-
-              {event.selected_restaurant.cuisine && (
-              <p className="text-xs text-teal-200 mt-1">
-                {event.selected_restaurant.cuisine}
-              </p>
-              )}
-            </div>
-          )}
-        </>
-      )}
+        )}
         
         {showDeleteEvent && (
           <button
