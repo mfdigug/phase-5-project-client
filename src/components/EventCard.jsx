@@ -123,8 +123,20 @@ const priceColors = {
 
         {showGenerateRestaurant && (
           event.selected_restaurant ? (
-            <div className="text-sm text-white mt-2">
-              Selected Restaurant: {event.selected_restaurant.name} at {event.selected_restaurant.location}
+            <div className="mt-3 p-3 rounded-lg bg-teal-800 border border-teal-600 shadow-md shadow-lg shadow-teal-900/40">
+    
+              <p className="text-xs text-teal-300 uppercase tracking-wide">
+                🍽️ Selected Restaurant
+              </p>
+
+              <h4 className="text-white font-semibold text-lg">
+                {event.selected_restaurant.name}
+              </h4>
+
+              <p className="text-sm text-slate-300">
+                📍 {event.selected_restaurant.location}
+              </p>
+
             </div>
           ) : (
             <button
