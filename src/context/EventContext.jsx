@@ -116,7 +116,7 @@ export const EventProvider = ({ children }) => {
         const newEvent = await res.json();
         setEvents((prev) => ({
             ...prev,
-            created: [...prev, newEvent]
+            created: [...prev.created, newEvent]
         }))
     }
 
