@@ -6,7 +6,7 @@ export default function NavBar() {
   const location = useLocation();
   const isMyRestaurants = location.pathname.startsWith("/dashboard/restaurants")
   const isMyEvents = location.pathname.startsWith("/dashboard/events")
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogoutClick = async () => {
@@ -24,6 +24,9 @@ export default function NavBar() {
                 <h1 className="text-3xl font-semibold text-teal-900">
                     Dinner Decider
                 </h1>
+                <p className="text-sm text-slate-500 mt-1">
+                  Welcome {user?.username}
+                </p>
                 <button onClick={handleLogoutClick}
                 className="mt-2 text-sm px-3 py-1 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition w-fit"
                 >

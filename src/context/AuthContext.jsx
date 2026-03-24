@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         if (!res.ok) throw new Error("Register failed");
 
         const data = await res.json();
+        console.log(data)
         setUser(data);
     };
     
@@ -42,23 +43,6 @@ export const AuthProvider = ({ children }) => {
         });
         setUser(null);
     }
-
-
-    // const fetchMyEvents = async () => {
-    //     if (!user) return;
-    //     try {
-    //         const res = await fetch("api/my_events", {credentials: "include"});
-    //         if (res.ok) {
-    //             const data = await res.json();
-    //             setEvents(data);
-    //         } else {
-    //             setEvents ({ created: [], invited: [] })
-    //         }
-    //     } catch (err) {
-    //         console.error("Failed to fetch events", err);
-    //         setEvents({ created: [], invited: [] })
-    //     }
-    // }
 
     useEffect(() => {
         const checkSession = async () => {

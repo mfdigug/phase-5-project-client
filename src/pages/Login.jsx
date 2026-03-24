@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from '../context/AuthContext'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 
 function Login() {
@@ -71,6 +71,13 @@ function Login() {
         >
           {isLoading ? "Loading..." : "Login"}
         </button>
+
+        <p>Don't have an account?</p>
+        <NavLink 
+        to="/register"
+        >
+          Register
+        </NavLink>
       
     </form>
   );
