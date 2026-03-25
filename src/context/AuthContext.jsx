@@ -7,6 +7,9 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
+    const [isChecking, setIsChecking] = useState(true);
+
+
     const login = async (email, password) => {
         const res = await fetch("/api/login", {
             method: "POST",
@@ -56,13 +59,15 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (err) {
             console.log("No active session", err);
+        } finally {
+            setIsChecking(false)
         }
      };
       checkSession();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ user, login, register, logout, isChecking }}>
             {children}
         </AuthContext.Provider>
     )

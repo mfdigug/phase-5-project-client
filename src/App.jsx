@@ -14,7 +14,8 @@ import AddRestaurant from "./components/AddRestaurant"
 import CreateEvent from "./components/CreateEvent"
 
 function App() {
-  const { user } = useAuth();
+  const { user, isChecking } = useAuth();
+  if (isChecking) return null;
   const isLoggedIn = !!user;
   
   return (
