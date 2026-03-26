@@ -14,7 +14,7 @@ export const EventProvider = ({ children }) => {
 
         const fetchMyEvents = async () => {
             try {
-                const res = await fetch("/api/my_events", {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/my_events`, {
                     credentials: "include"
                 });
                 if (res.ok) {
@@ -45,7 +45,7 @@ export const EventProvider = ({ children }) => {
             payload
         });
 
-        const res = await fetch(`/api/event_participants/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/event_participants/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const EventProvider = ({ children }) => {
 
     const generateRestaurant = async (eventId) => {
 
-        const res = await fetch(`/api/events/${eventId}/generate_restaurant`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}/generate_restaurant`, {
             method: "POST",
             credentials: "include"
         });
@@ -98,7 +98,7 @@ export const EventProvider = ({ children }) => {
     }
 
     const createEvent = async (eventData) => {
-        const res = await fetch("/api/events", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

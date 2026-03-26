@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
 
     const login = async (email, password) => {
-        const res = await fetch("/api/login", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (userData) => {
-        const res = await fetch("/api/register", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     };
     
     const logout = async () => {
-        await fetch("/api/logout",{
+        await fetch(`${import.meta.env.VITE_API_URL}/api/logout`,{
             method: "DELETE",
             credentials: "include",
         });
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkSession = async () => {
             try {
-            const res = await fetch("/api/check_session", { credentials: "include" });
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/check_session`, { credentials: "include" });
             if (res.ok) {
                 const data = await res.json();
                 setUser(data);

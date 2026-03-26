@@ -9,6 +9,10 @@ const Register = () => {
   const { register } = useAuth()
   const navigate = useNavigate();
 
+  const handleGoogleLogin = () => {
+    window.location.href = "https://phase-5-project-server.onrender.com/login/google"
+  }
+
 
   const formSchema = yup.object().shape({
     username: yup.string().required("Unique username required"),
@@ -28,7 +32,6 @@ const Register = () => {
         try {
             await register(values); 
             formik.resetForm();
-            navigate("/dashboard/restaurants/wishlist");
         } catch (err) {
             console.error(err)
         }   
@@ -131,6 +134,18 @@ const Register = () => {
     >
       Login
     </NavLink>
+
+    <div>
+      <button 
+        type="button"
+        onClick={handleGoogleLogin}
+        >
+      Continue with Google
+    </button>
+
+    </div>
+
+    
 
     </form>
   )

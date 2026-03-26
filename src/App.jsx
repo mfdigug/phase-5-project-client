@@ -15,24 +15,23 @@ import CreateEvent from "./components/CreateEvent"
 
 function App() {
   const { user, isChecking } = useAuth();
-  if (isChecking) return null;
   const isLoggedIn = !!user;
   
+  if (isChecking) return <div>Loading...</div>;
+
   return (
   <div className="min-h-screen bg-slate-200 text-teal-600 overflow-hidden">
     <Routes>
     
-      <Route
-          path="/"
-          element={
-            isLoggedIn ? <Navigate to="/dashboard/restaurants/wishlist" /> : <Navigate to="/login" />
-          }
-        />
+      
     
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={ <Login />} />
       
-      <Route path="/dashboard" element={isLoggedIn ? <UserDashboard /> : <Navigate to="/login" />} >
+      <Route path="/dashboard" element={isLoggedIn 
+      ? <UserDashboard /> 
+      : <Navigate to="/login" />
+      } >
 
       <Route path="restaurants" element={<MyRestaurants />}>
         <Route index element={<Wishlist />} />

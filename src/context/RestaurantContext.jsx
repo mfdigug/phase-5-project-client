@@ -14,7 +14,7 @@ export const RestaurantProvider = ({ children }) => {
 
         const fetchMyRestaurants = async () => {
             try {
-                const res = await fetch("/api/my_restaurants",{credentials: "include"});
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/my_restaurants`, {credentials: "include"});
                 if (res.ok) {
                     const data = await res.json();
                     setRestaurants(data);
@@ -40,7 +40,7 @@ export const RestaurantProvider = ({ children }) => {
             payload
         });
 
-        const res = await fetch(`/api/restaurants/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export const RestaurantProvider = ({ children }) => {
     };
 
     const rateRestaurant = async (id, rating) => {
-        const res = await fetch(`/api/restaurants/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export const RestaurantProvider = ({ children }) => {
     }
 
     const addRestaurant = async (restaurantData) => {
-        const res = await fetch("/api/restaurants", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const RestaurantProvider = ({ children }) => {
 
 
     const deleteRestaurant = async (id) => {
-        const res = await fetch(`/api/restaurants/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
             method: "DELETE",
             credentials: "include",
         });

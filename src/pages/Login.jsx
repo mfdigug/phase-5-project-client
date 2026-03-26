@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext'
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 
 
 function Login() {
@@ -10,6 +10,30 @@ function Login() {
   const [errors, setErrors] = useState([]);
   const { login } = useAuth()
   const navigate = useNavigate();
+  const location = useLocation()
+  
+  const handleGoogleLogin = () => {
+    window.location.href = "https://phase-5-project-server.onrender.com/api/google_login"
+  }
+
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get("oauth") === "success") {
+    // fetch session from backend via proxy
+    const checkSession = async () => {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/check_session`, { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data); // update auth context
+        navigate("/dashboard");
+      }
+    };
+    checkSession();
+  }
+}, [location.search]);
+
+  
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -17,7 +41,6 @@ function Login() {
 
     try {
       await login(email, password);
-      navigate("/dashboard")
     } catch (err) {
       setErrors([err.message])
     } finally {
@@ -78,6 +101,18 @@ function Login() {
         >
           Register
         </NavLink>
+
+        <div>
+
+        <button 
+        type="button"
+        onClick={handleGoogleLogin}
+        >
+          Continue with Google
+        </button>
+
+        </div>
+
       
     </form>
   );
