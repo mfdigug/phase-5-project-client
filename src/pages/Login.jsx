@@ -8,7 +8,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-  const { login } = useAuth()
+  const { login, setUser } = useAuth()
   const navigate = useNavigate();
   const location = useLocation()
   
@@ -16,24 +16,9 @@ function Login() {
     window.location.href = "https://phase-5-project-server.onrender.com/api/google_login"
   }
 
-  useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  if (params.get("oauth") === "success") {
-    // fetch session from backend via proxy
-    const checkSession = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/check_session`, { credentials: "include" });
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data); // update auth context
-        navigate("/dashboard");
-      }
-    };
-    checkSession();
-  }
-}, [location.search]);
-
-  
-
+   useEffect(() => {
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();
