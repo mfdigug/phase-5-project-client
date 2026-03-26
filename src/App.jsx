@@ -22,7 +22,15 @@ function App() {
   return (
   <div className="min-h-screen bg-slate-200 text-teal-600 overflow-hidden">
     <Routes>
-    
+
+      <Route 
+        path="/" 
+        element={
+          isLoggedIn 
+            ? <Navigate to="/dashboard" /> 
+            : <Navigate to="/login" />
+        } 
+      />
       
     
       <Route path="/register" element={<Register />} />

@@ -122,7 +122,7 @@ export const EventProvider = ({ children }) => {
     }
 
         const deleteEvent = async (id) => {
-        const res = await fetch(`/api/events/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
             method: "DELETE",
             credentials: "include",
         });
