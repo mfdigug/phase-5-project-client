@@ -19,9 +19,6 @@ export const EventProvider = ({ children }) => {
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    console.log(data);
-                    console.log("Created events:", data.created);
-                    console.log("Invited events:", data.invited);
                     setEvents(data);
                 } else {
                     setEvents({ created: [], invited: [] })
