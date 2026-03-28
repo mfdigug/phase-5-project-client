@@ -26,18 +26,21 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (userData) => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify(userData),
-        });
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(userData),
+            });
 
-        if (!res.ok) throw new Error("Register failed");
+            const data = await res.json();
+            
+            if (!res.ok) {
+                throw new Error(data.error || "Registration failed");
+            }
 
-        const data = await res.json();
-        console.log(data)
-        setUser(data);
-    };
+            setUser(data);
+    }
+
     
     const logout = async () => {
         await fetch(`${import.meta.env.VITE_API_URL}/api/logout`,{

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -6,12 +6,16 @@ import { useAuth } from "../context/AuthContext"
 
 const Register = () => {
 
-  const { register } = useAuth()
-  const navigate = useNavigate();
+  const { register, login, user } = useAuth();
+  const navigate = useNavigate()
 
   const handleGoogleLogin = () => {
     window.location.href = "https://phase-5-project-server.onrender.com/login/google"
   }
+
+  useEffect(() => {
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
 
 
   const formSchema = yup.object().shape({
@@ -43,23 +47,27 @@ const Register = () => {
     .required("Please confirm your password")
     .oneOf([yup.ref("password"), null], "Passwords must match")
 });
-  
-   const formik = useFormik({
-    initialValues: {
-        name: "",
-        email: "",
-        password: "",
-    },
-    validationSchema: formSchema,
-    onSubmit: async (values) => {
-        try {
-            await register(values); 
-            formik.resetForm();
-        } catch (err) {
-            console.error(err)
-        }   
-    }
-    })
+
+
+    
+const formik = useFormik({
+initialValues: {
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+},
+validationSchema: formSchema,
+onSubmit: async (values) => {
+    try {
+        await register(values); 
+        formik.resetForm();
+    } catch (err) {
+        console.error(err)
+    }   
+}
+})
+
 
 
 
@@ -91,6 +99,7 @@ const Register = () => {
             <input
             type="text"
             name="username"
+            autoComplete="username"
             className="
             font-opensans
             border border-[#EFE4D8] 
@@ -123,6 +132,7 @@ const Register = () => {
             <input
             type="text"
             name="email"
+            autoComplete="email"
             className="font-opensans
             border border-[#EFE4D8] 
             rounded px-3 py-2 
@@ -157,6 +167,7 @@ const Register = () => {
             <input
             type="password"
             name="password"
+            autoComplete="new-password"
             className="font-opensans
                 border border-[#EFE4D8] 
                 rounded px-3 py-2 
@@ -187,6 +198,7 @@ const Register = () => {
             <input
             type="password"
             name="confirmPassword"
+            autoComplete="new-password"
             className="font-opensans
             border border-[#EFE4D8] 
             rounded px-3 py-2 
@@ -208,7 +220,13 @@ const Register = () => {
             )}
         
         </div>
-    
+
+        {formik.errors.submit && (
+          <p className="text-[#FFA69E] text-sm text-center mt-2">
+            {formik.errors.submit}
+        </p>
+        )}
+
         <button 
         type="submit"
         className="
