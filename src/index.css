@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+@import "tailwindcss";
 
 .font-italiana {
   font-family: 'Italiana', serif;

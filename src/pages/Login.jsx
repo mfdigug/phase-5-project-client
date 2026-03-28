@@ -51,12 +51,14 @@ function Login() {
       </h1>
 
       <div className="flex flex-col">
+        
         <label 
           htmlFor="email"
           className="mb-1 text-sm font-medium font-opensans"
         >
           Email
         </label>
+
         <input
           type="text"
           id="email"
@@ -130,43 +132,39 @@ function Login() {
 
         <div className="mt-6 text-center flex flex-col gap-3">
 
-        <p className="font-opensans text-sm text-[#EFE4D8]">
-          Don't have an account? {' '}
-          <NavLink 
-          to="/register"
+          <p className="font-opensans text-sm text-[#EFE4D8]">
+            Don't have an account? {' '}
+            <NavLink 
+            to="/register"
+            className="
+            font-opensans
+            text-[#F5EDE6] font-semibold 
+            hover:text-[#FFDEE0] 
+            hover:underline 
+            transition-colors duration-200"
+            >
+              Register
+            </NavLink>
+          </p>
+
+          <span className="font-opensans text-sm text-[#EFE4D8]">or</span>
+
+          <button 
+          type="button"
+          onClick={handleGoogleLogin}
           className="
           font-opensans
-          text-[#F5EDE6] font-semibold 
-          hover:text-[#FFDEE0] 
-          hover:underline 
-          transition-colors duration-200"
+          bg-[#EFE4D8]/10 text-[#F5EDE6] font-semibold
+          px-4 py-2 
+          rounded
+          hover:bg-[#FFDEE0]
+          hover:text-[#7A0000]
+          transition-color duration-200"
           >
-            Register
-          </NavLink>
-        </p>
-
-        <span className="font-opensans text-sm text-[#EFE4D8]">or</span>
-
-        
-
-        <button 
-        type="button"
-        onClick={handleGoogleLogin}
-        className="
-        font-opensans
-        bg-[#EFE4D8]/10 text-[#F5EDE6] font-semibold
-        px-4 py-2 
-        rounded
-        hover:bg-[#FFDEE0]
-        hover:text-[#7A0000]
-        transition-color duration-200"
-        >
-          Continue with Google
-        </button>
-        
+            Continue with Google
+          </button>
 
       </div>
-
       
     </form>
   );
