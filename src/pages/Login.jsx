@@ -69,7 +69,7 @@ function Login() {
           font-opensans
           border border-[#EFE4D8] 
           rounded px-3 py-2 
-          bg-[#1A0F17]
+          bg-[#7A0000]/40
           text-[#F5EDE6] 
           focus:outline-none 
           focus:ring-3 
@@ -96,7 +96,7 @@ function Login() {
           font-opensans
           border border-[#EFE4D8] 
           rounded px-3 py-2 
-          bg-[#1A0F17]
+          bg-[#7A0000]/40
           text-[#F5EDE6] 
           focus:outline-none 
           focus:ring-3 

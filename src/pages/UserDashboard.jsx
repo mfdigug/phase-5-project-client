@@ -1,19 +1,29 @@
 import NavBar from '../components/NavBar'
-import { useAuth } from "../context/AuthContext"
 import { Outlet } from "react-router-dom"
 
 const UserDashboard = () => {
   
-  const { user } = useAuth();
-  
   return (
-    <div className="min-h-screen bg-mist-300 text-teal-950 overflow-hidden">
-       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 mt-8">
+    <div className="
+          min-h-screen 
+          bg-[#020617] 
+          text-[#F5EDE6]  
+          relative 
+          overflow-hidden">
+            
+    <div className="
+        absolute 
+        inset-0 z-0 
+        pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle 500px at 50% 100px, rgba(239,68,68,0.4), transparent)`,
+        }}
+  />
+
           <NavBar />
           <Outlet />
           
       </div>
-    </div>
   )
 }
 
