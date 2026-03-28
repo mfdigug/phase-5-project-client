@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+.font-italiana {
+  font-family: 'Italiana', serif;
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.font-antic {
+  font-family: 'Antic Didone', serif;
+}
+
+.font-opensans {
+  font-family: 'Open Sans', sans-serif;
+}
