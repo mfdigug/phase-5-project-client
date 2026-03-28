@@ -15,10 +15,33 @@ const Register = () => {
 
 
   const formSchema = yup.object().shape({
-    username: yup.string().required("Unique username required"),
-    email: yup.string().required("Please enter your email address"),
-    password: yup.string().required("Password..."),
-    confirmPassword: yup.string().required("Passwords must match")
+    username: yup
+    .string()
+    .required("Username required")
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username can't exceed 20 characters")
+    .matches(/^[a-zA-Z0-9_.]+$/, "Username can only contian letters, numbers, underscores and periods"),
+
+
+    email: yup
+    .string()
+    .required("Email is required")
+    .email("Must be a valid email address"),
+
+
+    password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must have at least one uppercase letter")
+    .matches(/[a-z]/, "Password must have at least one lowercase letter")
+    .matches(/[0-9]/, "Password must have at least one number")
+    .matches(/[@$!%*?&]/, "Password must have at least one special character"),
+
+    confirmPassword: yup
+    .string()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password"), null], "Passwords must match")
 });
   
    const formik = useFormik({
