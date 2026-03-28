@@ -17,7 +17,7 @@ export default function NavBar() {
 
   return (
     <div>
-        <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <header className="bg-[#020617]/95 border-b border-slate-700 sticky top-0 z-10">
             {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> */}
             <div className="flex justify-between items-center h-[120px]"> 
               <div className="flex flex-col justify-center h-full">
