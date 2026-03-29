@@ -61,14 +61,20 @@ const CreateEvent = () => {
     return (
     <form 
     onSubmit={formik.handleSubmit}
-    className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow space-y-6">
-        <h2 className="text-2xl font-semibold text-slate-700">
+    className="max-w-md mx-auto 
+    mt-6 
+    bg-gradient-to-br from-slate-500/60 to-slate-700/80 p-6 
+    rounded-xl 
+    space-y-6 
+    font-opensans 
+    shadow-[0_3px_6px_rgba(237,145,158,0.18),0_8px_20px_rgba(237,145,158,0.25)]">
+        <h2 className="text-2xl font-antic tracking-wider font-semibold text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
             Create a New Event
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Title
             </label>
             <input
@@ -80,13 +86,13 @@ const CreateEvent = () => {
             value={formik.values.title}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.title}</p>
+            <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.title}</p>
        
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Date & Time
             </label>
             <input
@@ -97,13 +103,13 @@ const CreateEvent = () => {
             value={formik.values.date}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.date}</p>
+            <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.date}</p>
        
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Preferred cuisine:
             </label>
             <input
@@ -115,13 +121,13 @@ const CreateEvent = () => {
             value={formik.values.cuisine_filter}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine_filter}</p>
+            <p className="text-rose-390 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine_filter}</p>
         
         </div>
    
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Desired location:
             </label>
             <input
@@ -133,7 +139,7 @@ const CreateEvent = () => {
             value={formik.values.location_filter}
             />
         
-           <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.location_filter}</p>
+           <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.location_filter}</p>
         
         </div>
 
@@ -141,7 +147,7 @@ const CreateEvent = () => {
 
         <div className="grid grid-cols-2 items-start gap-4">
         
-            <label className="block text-sm font-medium text-slate-600 self-start">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-start">
                 Select a price category:
             </label>
 
@@ -154,16 +160,16 @@ const CreateEvent = () => {
                          value={price}
                          onChange={formik.handleChange}
                          checked={formik.values.price_filter === price}
-                         className="text-teal-500 focus:ring-teal-400" 
+                         className="text-slate-200 focus:ring-teal-400" 
                         
                         />
-                        <span className="text-slate-700">{price}</span>
+                        <span className="text-slate-200">{price}</span>
 
                     </label>
                     
                 ))} 
         
-                 <p className="text-red-400 text-sm min-h-[18px] mt-1">
+                 <p className="text-rose-300 text-sm min-h-[18px] mt-1">
                     {formik.errors.price_filter}
                 </p>
 
@@ -171,7 +177,7 @@ const CreateEvent = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Invite other users:
             </label>
             <input
@@ -190,21 +196,28 @@ const CreateEvent = () => {
                 }
             />
 
-            <p className="text-red-400 text-sm min-h-[18px] mt-1">
+            <p className="text-rose-300 text-sm min-h-[18px] mt-1">
                 {formik.errors.invitees}
             </p>
 
 
         </div>
     
-    <button 
-    type="submit"
-    className="w-full bg-teal-500 text-white font-medium py-2.5 rounded-lg mt-4
-           hover:bg-teal-600 active:scale-[0.98] transition-all duration-150
-           focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
-    >
-        Submit
-    </button>
+        <button 
+        type="submit"
+        className="
+        w-full py-2.5 
+        rounded-lg 
+        text-white font-medium
+        bg-gradient-to-br from-slate-700 via-slate-600/60 to-red-800/40
+        shadow-lg
+
+        hover:from-slate-700 hover:to-teal-600
+        active:scale-[0.98] transition-all duration-150
+        focus:outline-none focus:ring-2 focus:ring-slate-200/70 focus:ring-offset-0"
+        >
+            Submit
+        </button>
 
     </form>
   )

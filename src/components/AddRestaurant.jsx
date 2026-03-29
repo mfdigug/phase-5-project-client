@@ -58,62 +58,73 @@ const AddRestaurant = () => {
     return (
     <form 
     onSubmit={formik.handleSubmit}
-    className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow space-y-6">
-        <h2 className="text-2xl font-semibold text-slate-700">
+    className="
+    max-w-md mx-auto 
+    mt-6 
+    bg-gradient-to-br from-slate-700/60 to-slate-900/80 p-6 
+    rounded-xl 
+    space-y-6 
+    font-opensans 
+    shadow-[0_3px_6px_rgba(237,145,158,0.18),0_8px_20px_rgba(237,145,158,0.25)]"
+    >
+        <h2 className="text-2xl font-semibold font-antic tracking-wider text-slate-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
             Add a New Restaurant
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Name
             </label>
             <input
             type="text"
             name="name"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
+          focus:ring-offset-0"
             placeholder="Restaurant name"
             onChange={formik.handleChange}
             value={formik.values.name}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.name}</p>
+            <p className="text-rose-300/60 text-sm min-h-[18px] mt-1"> {formik.errors.name}</p>
        
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Cuisine
             </label>
             <input
             type="text"
             name="cuisine"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
+          focus:ring-offset-0"
             placeholder="e.g. Italian"
             onChange={formik.handleChange}
             value={formik.values.cuisine}
             />
             
-            <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine}</p>
+            <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine}</p>
         
         </div>
    
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       
-            <label className="block text-sm font-medium text-slate-600 self-center">
+            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Location
             </label>
             <input
             type="text"
             name="location"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
+          focus:ring-offset-0"
             placeholder="Suburb"
             onChange={formik.handleChange}
             value={formik.values.location}
             />
         
-           <p className="text-red-400 text-sm min-h-[18px] mt-1"> {formik.errors.location}</p>
+           <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.location}</p>
         
         </div>
 
@@ -121,7 +132,7 @@ const AddRestaurant = () => {
 
         <div className="grid grid-cols-2 items-start gap-4">
         
-            <label className="block text-sm font-medium text-slate-600 self-start">
+            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-start">
                 Price Range
             </label>
 
@@ -134,16 +145,17 @@ const AddRestaurant = () => {
                          value={price}
                          onChange={formik.handleChange}
                          checked={formik.values.price_range === price}
-                         className="text-teal-500 focus:ring-teal-400" 
+                         className="text-teal-500 focus:ring-[#EFE4D8]/40
+          focus:ring-offset-0" 
                         
                         />
-                        <span className="text-slate-700">{price}</span>
+                        <span className="text-slate-400">{price}</span>
 
                     </label>
                     
                 ))} 
         
-                 <p className="text-red-400 text-sm min-h-[18px] mt-1">
+                 <p className="text-rose-300 text-sm min-h-[18px] mt-1">
                     {formik.errors.price_range}
                 </p>
 
@@ -152,9 +164,16 @@ const AddRestaurant = () => {
     
     <button 
     type="submit"
-    className="w-full bg-teal-500 text-white font-medium py-2.5 rounded-lg mt-4
-           hover:bg-teal-600 active:scale-[0.98] transition-all duration-150
-           focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+    className="
+    w-full py-2.5 
+    rounded-lg 
+    text-white font-medium
+    bg-gradient-to-br from-slate-600 via-slate-500 to-teal-400
+    shadow-lg
+
+    hover:from-slate-700 hover:to-teal-600
+    active:scale-[0.98] transition-all duration-150
+    focus:outline-none focus:ring-2 focus:ring-slate-200/70 focus:ring-offset-0"
     >
         Submit
     </button>
