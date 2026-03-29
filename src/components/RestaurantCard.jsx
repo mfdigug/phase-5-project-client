@@ -18,16 +18,13 @@ const priceLabels = {
 
 
 const priceColors = {
-  1: "bg-green-100 text-green-800",
-  2: "bg-blue-100 text-blue-800",
-  3: "bg-yellow-100 text-yellow-800",
-  4: "bg-orange-100 text-orange-800",
-  5: "bg-red-100 text-red-800",
+  1: "text-green-500",
+  2: "text-blue-500",
+  3: "text-yellow-500",
+  4: "text-orange-500",
+  5: "text-red-500",
 };
 
-//   const cuisineColors = {
-//    
-//   };
 
 const renderStars = (rating = 0, onRate) => {
   return [...Array(5)].map((_, i) => {
@@ -42,8 +39,8 @@ const renderStars = (rating = 0, onRate) => {
       > 
         <FontAwesomeIcon
         icon={filled ? solidStar : emptyStar} 
-        className={`text-lg transition ${
-          filled ? "text-yellow-400" : "text-slate-500"
+        className={`text-lg transition transform hover:scale-110 ${
+          filled ? "text-amber-200/60" : "text-slate-600"
         }`}
         /> 
       </button>
@@ -52,7 +49,8 @@ const renderStars = (rating = 0, onRate) => {
 )}
 
   return (
-    <div className="bg-teal-900 rounded-xl border border-teal-800 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+    <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_15px_rgba(20,184,166,0.5)]
+    hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
       {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
         <img
           src={
@@ -69,49 +67,49 @@ const renderStars = (rating = 0, onRate) => {
         />
       </div> */}
 
-      <div className="p-4 space-y-2">
+      <div className="p-6 space-y-2">
         <div>
-          <h3 className="text-lg font-semibold text-white line-clamp-1 tracking-tight">
+          <h3 className="text-xl font-sanserif font-extralight [text-shadow:0_0_3px_rgba(220,38,38,0.6),0_0_8px_rgba(127,29,29,0.3)] text-white tracking-wide">
             {restaurant.name}
           </h3>
 
-          <div className="mt-1 h-0.5 w-full bg-teal-500/30 rounded-full" />
+          <div className="mt-2 h-1 w-full bg-teal-500/30 rounded-full" />
         </div>
 
-        <p className="text-sm text-slate-400 mb-3 flex items-center gap-2"> <FontAwesomeIcon icon={faLocationDot} />
+        <p className="text-sm text-slate-400 mt-4 mb-4 flex uppercase items-center gap-2"> <FontAwesomeIcon icon={faLocationDot} />
         {restaurant.location}</p>
         
         <div className="flex flex-wrap gap-2 mb-3">
-          <span className="px-2 py-1 text-xs rounded-full bg-teal-700 text-teal-100"
-            // ${cuisineColors[restaurant.cuisine]}`}
+          <span className="px-2 py-1 text-xs font-opensans rounded bg-slate-700/50 border-slate-400 text-white"
           >
             {restaurant.cuisine}
           </span>
 
-          <span className={`px-2 py-1 text-xs rounded-full ${priceColors[restaurant.price_range]}`}>
+          <span className={`px-2 py-1 text-xs bg-slate-700 rounded ${priceColors[restaurant.price_range]}`}>
             {priceLabels[restaurant.price_range]}
           </span>
         
         </div>
         
-        <div className="flex items-center gap-4 justify-between">
+        <div className="mt-4 flex items-center gap-4 justify-between">
         <button 
           onClick={() => updateRestaurantStatus(restaurant.id,
             mode === "tried" ? "wishlist" : "tried"
           )}
-          className={`px-3 py-1 text-sm rounded-md text-white transition active:scale-95 ${
-            mode === "tried"
-            ? "bg-indigo-600 hover:bg-indigo-500"
-            : "bg-teal-600 hover:bg-teal-500"
-          }`}>
-            {mode === "tried" ? "Add to Wishlist" : "Mark as Tried"}
+          className={`px-3 py-1 text-xs rounded-md border 
+            ${mode === "tried"
+              ? "border-indigo-500/30 text-white hover:bg-indigo-500/10"
+              : "border-teal-500/30 text-white hover:bg-teal-500/10"}
+            transition-all duration-200 active:scale-95`}>
+            {mode === "tried" ? "Move to Wishlist" : "Mark as Tried"}
          </button>
 
         {mode === "wishlist" && (
           <button
             onClick={() => deleteRestaurant(restaurant.id)}
-            className="bg-red-600 px-3 py-1 text-sm rounded-md text-white transition hover:bg-red-500 active:scale-95"
-          >
+            className="px-3 py-1 text-xs rounded-md border border-red-500/30 
+           text-white hover:bg-red-500/10
+           transition-all duration-200 active:scale-95">
           Delete Restaurant
         </button>
         )}

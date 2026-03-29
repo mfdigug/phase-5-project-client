@@ -45,7 +45,7 @@ export default function NavBar() {
               text-3xl sm:text-4xl md:text-5xl
               text-[#FDF2F2]/80 
               tracking-wide
-              md:absolute md:left-1/2 md:transform md:-translate-x-1/2
+              md:absolute md:left-1/2 md:transform md:-translate-x-1/2 
               "
               style={{ textShadow: "0 0 6px rgba(239,68,68,0.5)" }}
               >
@@ -125,8 +125,8 @@ export default function NavBar() {
               <>
                 My Restaurants
                 <span className={`
-                  absolute left-0 bottom-0 h-[2px] w-full transition-all duration-300
-                  ${isActive ? "bg-[#C34729]" : "bg-transparent"}
+                  absolute left-0 bottom-0 h-[.5px] w-full transition-all duration-300
+                  ${isActive ? "bg-slate-500/50" : "bg-transparent"}
                 `} />
               </>
             )}
@@ -147,7 +147,7 @@ export default function NavBar() {
                 My Events
                 <span className={`
                   absolute left-0 bottom-0 h-[2px] w-full transition-all duration-300
-                  ${isActive ? "bg-[#C34729]" : "bg-transparent"}
+                  ${isActive ? "bg-slate-500/50" : "bg-transparent"}
                 `} />
               </>
             )}

@@ -25,7 +25,12 @@ const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status
           
           <NavLink 
           to="/dashboard/restaurants/add_restaurant"
-          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-500 active:scale-95 transition-colors">
+          className="
+          bg-slate-800/60 text-white px-4 py-2 rounded
+          hover:shadow-[0_0_15px_rgba(20,184,166,0.5)]
+          hover:text-rose-100
+          active:scale-95
+          transition-colors">
             Add Restaurant
           </NavLink>
         </div>
