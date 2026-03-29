@@ -3,33 +3,29 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 const SelectedRestaurant = ({ restaurant, price, priceLabels, priceColors }) => {
   return (
-    <div className="bg-green-500">
+    <div className="bg-gradient-to-br from-slate-900 via-slate-700/40 to-slate-900 rounded-2xl p-6 shadow-xl shadow-red-600/20 text-white mb-6 items-center">
       
       {/* Header */}
-      <p className="text-xs text-slate-300 uppercase mb-2">
+      <p className="text-xs text-slate-300 uppercase mb-3 self-start">
         Selected Restaurant
       </p>
 
       {/* Name */}
-      <h4 className="text-white font-antic text-xl tracking-widest mb-2">
+      <h4 className="text-white font-antic text-xl tracking-widest mb-3 text-center">
         {restaurant.name}
       </h4>
 
       {/* Location */}
-      <div className="flex items-center gap-2 text-sm text-slate-300">
+      <div className="flex items-center justify-center gap-2 text-sm text-slate-300 mb-2">
         <FontAwesomeIcon 
           icon={faLocationDot} 
-          className="text-teal-400/80 text-xs"
+          className="text-teal-400/40 text-xs"
         />
         <span className="truncate">{restaurant.location}</span>
       </div>
 
       {/* Footer row */}
-      <div className="flex justify-between items-center pt-1">
-        <p className="text-xs text-teal-200/90 tracking-wide">
-          {restaurant.cuisine}
-        </p>
-
+      <div className="flex items-center justify-center w-full max-w-xs gap-2 pt-1">
         {price && (
           <span
             className={`
@@ -43,6 +39,11 @@ const SelectedRestaurant = ({ restaurant, price, priceLabels, priceColors }) => 
             {priceLabels[price]}
           </span>
         )}
+
+        <p className="text-xs text-slate-400 tracking-wide">
+          {restaurant.cuisine}
+        </p>
+
       </div>
     </div>
   );

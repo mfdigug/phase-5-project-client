@@ -105,6 +105,14 @@ function Login() {
           transition-all duration-200"
         />
       </div>
+
+      {errors.length > 0 && (
+        <div className="text-red-800 px-3 py-2 rounded text-sm mb-2 text-center">
+          {errors.map((error, index) => (
+            <p key={index}>{error}</p>
+          ))}
+        </div>
+      )}
       
         <button 
           type="submit"
