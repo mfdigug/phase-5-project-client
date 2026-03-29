@@ -9,9 +9,9 @@ const Register = () => {
   const { register, login, user } = useAuth();
   const navigate = useNavigate()
 
-//   const handleGoogleLogin = () => {
-//     window.location.href = "https://phase-5-project-server.onrender.com/login/google"
-//   }
+  const handleGoogleLogin = () => {
+    window.location.href = "https://phase-5-project-server.onrender.com/login/google"
+  }
 
   useEffect(() => {
     if (user) navigate("/dashboard");
@@ -268,7 +268,7 @@ onSubmit: async (values) => {
             </NavLink>
         </p>
         
-        {/* <span className="font-opensans text-sm text-[#EFE4D8]">or</span>    
+        <span className="font-opensans text-sm text-[#EFE4D8]">or</span>    
 
         <button 
         type="button"
@@ -283,7 +283,7 @@ onSubmit: async (values) => {
         transition-color duration-200"
         >
             Continue with Google
-        </button> */}
+        </button>
 
     </div>
 
