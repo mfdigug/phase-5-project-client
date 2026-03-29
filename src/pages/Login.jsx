@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext'
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
-
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -9,12 +8,13 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const { login, user } = useAuth()
+  
   const navigate = useNavigate();
   const location = useLocation()
   
-  const handleGoogleLogin = () => {
-    window.location.href = "https://phase-5-project-server.onrender.com/api/google_login"
-  }
+  // const handleGoogleLogin = () => {
+  //   window.location.href = "https://phase-5-project-server.onrender.com/api/google_login"
+  // }
 
    useEffect(() => {
     if (user) navigate("/dashboard");
@@ -146,7 +146,7 @@ function Login() {
               Register
             </NavLink>
           </p>
-
+{/* 
           <span className="font-opensans text-sm text-[#EFE4D8]">or</span>
 
           <button 
@@ -163,7 +163,7 @@ function Login() {
           >
             Continue with Google
           </button>
-
+           */}
       </div>
       
     </form>
