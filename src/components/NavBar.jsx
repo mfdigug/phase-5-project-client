@@ -17,7 +17,7 @@ export default function NavBar() {
 
   return (
     <header className="
-    bg-[#020617]/60 
+    bg-[#020617]/40 
     border-b 
     border-slate-800/60 
     backdrop-blur-md 
