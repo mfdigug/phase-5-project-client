@@ -49,7 +49,7 @@ const renderStars = (rating = 0, onRate) => {
 )}
 
   return (
-    <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_15px_rgba(20,184,166,0.5)]
+    <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_3px_rgba(20,184,166,0.4),0_0_8px_rgba(20,184,166,0.25),0_0_14px_rgba(20,184,166,0.10)]
     hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
       {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
         <img
@@ -69,7 +69,7 @@ const renderStars = (rating = 0, onRate) => {
 
       <div className="p-6 space-y-2">
         <div>
-          <h3 className="text-xl font-sanserif font-extralight [text-shadow:0_0_3px_rgba(220,38,38,0.6),0_0_8px_rgba(127,29,29,0.3)] text-white tracking-wide">
+          <h3 className="text-xl font-sanserif font-extralight [text-shadow:0_0_3px_rgba(220,38,38,0.6),0_0_8px_rgba(127,29,29,0.3)] text-white line-clamp-1 tracking-wide hover:line-clamp-none">
             {restaurant.name}
           </h3>
 
