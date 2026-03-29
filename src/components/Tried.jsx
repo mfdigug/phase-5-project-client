@@ -16,15 +16,23 @@ const Tried = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      <div className="flex flex-col items-start justify-center h-full">
+      <div className="flex flex-col items-center justify-center h-full">
         
-        <h2 className="text-2xl font-semibold text-slate-700 mb-6">
+        <h2 className="text-2xl md:text-3xl font-light font-antic text-slate-300 mb-6">
           Tried
         </h2>
       
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid 
+            grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4 
+            justify-items-center
+            gap-6">
             {triedRestaurants.map((restaurant) => (
+                <div className="w-full max-w-xs sm:w-auto">
                 <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="tried"/>
+                </div>
             ))} 
         </div>
   

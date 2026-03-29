@@ -34,7 +34,8 @@ export default function NavBar() {
         <div className="
           flex justify-between items-start md:items-center
           py-4 md:py-6
-          gap-4"> 
+          gap-4
+          relative"> 
                     
           <div className="flex flex-col gap-3 min-w-0">
             
@@ -44,6 +45,7 @@ export default function NavBar() {
               text-3xl sm:text-4xl md:text-5xl
               text-[#FDF2F2]/80 
               tracking-wide
+              md:absolute md:left-1/2 md:transform md:-translate-x-1/2
               "
               style={{ textShadow: "0 0 6px rgba(239,68,68,0.5)" }}
               >

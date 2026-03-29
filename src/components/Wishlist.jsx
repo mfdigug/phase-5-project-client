@@ -9,21 +9,17 @@ const Wishlist = () => {
   const { restaurants } = useRestaurants();
 
 
-
-
 const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status === "wishlist")
-
-// console.log("User:", user);
-  // console.log(wishlistRestaurants)
-
-
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      <div className="flex flex-col items-start justify-center h-full">
+      <div className="flex flex-col items-center justify-center h-full">
         
-        <div className="flex items-center justify-between w-full mb-6">
-          <h2 className="text-2xl font-semibold text-slate-700 ">
+        <div className="flex items-center justify-between w-full mb-6 relative">
+          <div className="w-0 md:w-auto"></div>
+          <h2 className="
+              text-2xl font-light font-antic text-slate-300 
+              md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
             Wishlist
           </h2>
           
@@ -34,9 +30,17 @@ const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status
           </NavLink>
         </div>
       
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid 
+            grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4 
+            justify-items-center
+            gap-6">
             {wishlistRestaurants.map((restaurant) => (
+              <div className="w-full max-w-xs sm:w-auto">
                 <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="wishlist"/>
+              </div>
           
         ))} 
 
