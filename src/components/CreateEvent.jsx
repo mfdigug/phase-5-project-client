@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useEvents } from "../context/EventContext";
 import { useAuth } from "../context/AuthContext";
-
+import { useState, useEffect, useRef } from "react";
 
 const CreateEvent = () => {
 
@@ -11,6 +11,10 @@ const CreateEvent = () => {
   const { createEvent } = useEvents() 
   const { user } = useAuth();
   
+  // states for user suggestions in invitee input
+  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const inviteeInputRef = useRef();
 
   const formSchema = yup.object().shape({
     title: yup.string().required("Name required"),
@@ -56,6 +60,32 @@ const CreateEvent = () => {
         }   
     }
     })
+
+
+    //autocomplete fetch existing users
+     useEffect(() => {
+    if (!formik.values.inviteesInput) return;
+
+    const fetchSuggestions = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users?search=${formik.values.inviteesInput}`);
+        if (res.ok) {
+          const data = await res.json();
+          setUserSuggestions(data.filter(u => !formik.values.invitees.includes(u.username)));
+        }
+      } catch (err) {
+        console.error("Failed to fetch user suggestions", err);
+      }
+    }
+    fetchSuggestions();
+  }, [formik.values.inviteesInput, formik.values.invitees]);
+
+  const handleSuggestionClick = (username) => {
+    formik.setFieldValue("invitees", [...formik.values.invitees, username]);
+    formik.setFieldValue("inviteesInput", "");
+    setUserSuggestions([]);
+    inviteeInputRef.current.focus();
+  }
 
   
     return (
@@ -182,23 +212,48 @@ const CreateEvent = () => {
             </label>
             <input
                 type="text"
+                ref={inviteesInputRef}
                 name="invitees"
                 placeholder="Enter usernames separated by commas"
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-                value={(formik.values.invitees || []).join(", ")}
-                onChange={(e) =>
+                value={formik.values.inviteesInput || ""}
+                onChange={(e) => {
                     formik.setFieldValue(
-                        "invitees",
-                        e.target.value
-                            .split(",")
-                            .map(name => name.trim())
-                    )
-                }
+                        "inviteesInput",
+                        e.target.value);
+                        setShowSuggestions(true);
+                }}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
             />
 
-            <p className="text-rose-300 text-sm min-h-[18px] mt-1">
-                {formik.errors.invitees}
-            </p>
+            <div className="flex flex-wrap gap-2 mt-1">
+                {formik.values.invitees.map(username => (
+                <span key={username} className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
+                {username}
+                <button type="button" onClick={() => {
+                    formik.setFieldValue("invitees", formik.values.invitees.filter(u => u !== username))
+                }}>×</button>
+                </span>
+                ))}
+            </div>
+
+        {showSuggestions && userSuggestions.length > 0 && (
+          <ul className="absolute z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200">
+            {userSuggestions.map(user => (
+              <li
+                key={user.id}
+                className="px-3 py-2 cursor-pointer hover:bg-slate-600"
+                onMouseDown={() => handleSuggestionClick(user.username)}
+              >
+                {user.username}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <p className="text-rose-300 text-sm min-h-[18px] mt-1">
+            {formik.errors.invitees}
+        </p>
 
 
         </div>
