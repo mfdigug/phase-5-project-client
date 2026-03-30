@@ -41,7 +41,8 @@ const CreateEvent = () => {
         cuisine_filter: "",
         location_filter: "",
         price_filter: "",
-        invitees: []
+        invitees: [],
+        inviteesInput: ""
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
