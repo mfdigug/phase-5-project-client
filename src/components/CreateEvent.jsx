@@ -210,6 +210,7 @@ const CreateEvent = () => {
             <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Invite other users:
             </label>
+            <div className="relative w-full">
             <input
                 type="text"
                 ref={inviteeInputRef}
@@ -218,38 +219,26 @@ const CreateEvent = () => {
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
                 value={formik.values.inviteesInput || ""}
                 onChange={(e) => {
-                    formik.setFieldValue(
-                        "inviteesInput",
-                        e.target.value);
-                        setShowSuggestions(true);
+                formik.setFieldValue("inviteesInput", e.target.value);
+                setShowSuggestions(true);
                 }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
             />
 
-            <div className="flex flex-wrap gap-2 mt-1">
-                {formik.values.invitees.map(username => (
-                <span key={username} className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
-                {username}
-                <button type="button" onClick={() => {
-                    formik.setFieldValue("invitees", formik.values.invitees.filter(u => u !== username))
-                }}>×</button>
-                </span>
+            {showSuggestions && userSuggestions.length > 0 && (
+                <ul className="absolute left-0 top-full z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200 text-sm">
+                {userSuggestions.map(user => (
+                    <li
+                    key={user.id}
+                    className="px-2 py-1 cursor-pointer hover:bg-slate-600"
+                    onMouseDown={() => handleSuggestionClick(user.username)}
+                    >
+                    {user.username}
+                    </li>
                 ))}
+                </ul>
+            )}
             </div>
-
-        {showSuggestions && userSuggestions.length > 0 && (
-          <ul className="absolute z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200">
-            {userSuggestions.map(user => (
-              <li
-                key={user.id}
-                className="px-3 py-2 cursor-pointer hover:bg-slate-600"
-                onMouseDown={() => handleSuggestionClick(user.username)}
-              >
-                {user.username}
-              </li>
-            ))}
-          </ul>
-        )}
 
         <p className="text-rose-300 text-sm min-h-[18px] mt-1">
             {formik.errors.invitees}
