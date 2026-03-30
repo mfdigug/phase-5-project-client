@@ -212,7 +212,7 @@ const CreateEvent = () => {
                 Invite other users:
             </label>
             <div className="relative w-full">
-  {/* Input for typing invitees */}
+ 
   <input
     type="text"
     ref={inviteeInputRef}
@@ -227,7 +227,7 @@ const CreateEvent = () => {
     onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
   />
 
-  {/* Suggestions dropdown */}
+ 
   {showSuggestions && userSuggestions.length > 0 && (
     <ul className="absolute left-0 top-full z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200 text-sm">
       {userSuggestions.map(user => (
@@ -242,7 +242,7 @@ const CreateEvent = () => {
     </ul>
   )}
 
-  {/* Display added invitees below the input */}
+ 
   <div className="flex flex-wrap gap-2 mt-1">
     {formik.values.invitees.map(username => (
       <span
