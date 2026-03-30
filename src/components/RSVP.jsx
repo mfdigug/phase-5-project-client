@@ -3,19 +3,24 @@ import { useState } from "react";
 const RSVP = ({ MyEP, myRSVPStatus, updateRSVP }) => {
   const [isEditing, setIsEditing] = useState(false);
 
+  const handleRSVP = async (status) => {
+    await updateRSVP(MyEP.id, status);
+    setIsEditing(false);
+};
+
   return (
     <div className="flex flex-col gap-2 mt-4 w-full items-center">
       {isEditing || !myRSVPStatus ? (
         <div className="flex gap-4 justify-center w-full">
           <button
-            onClick={() => updateRSVP(MyEP.id, "accepted")}
+            onClick={() => handleRSVP("accepted")}
             className="px-3 py-1 text-xs rounded-md border transition-all duration-200 active:scale-95 border-emerald-500/20 text-emerald-300 hover:bg-emerald-500/10"
           >
             Accept
           </button>
 
           <button
-            onClick={() => updateRSVP(MyEP.id, "declined")}
+            onClick={() => handleRSVP("declined")}
             className="px-3 py-1 text-xs rounded-md border transition-all duration-200 active:scale-95 border-red-500/20 text-red-300 hover:bg-red-500/10"
           >
             Decline
