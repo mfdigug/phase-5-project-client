@@ -17,7 +17,7 @@ function Login() {
   }
 
    useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) navigate("/dashboard/restaurants/wishlist");
   }, [user, navigate]);
 
   async function handleSubmit(e) {

@@ -14,7 +14,7 @@ const Register = () => {
   }
 
   useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) navigate("/dashboard/restaurants/wishlist");
   }, [user, navigate]);
 
 
