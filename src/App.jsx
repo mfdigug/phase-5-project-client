@@ -17,9 +17,21 @@ function App() {
   const { user, isChecking } = useAuth();
   const isLoggedIn = !!user;
   
-  if (isChecking) return <div className="min-h-screen bg-[#020617] text-[#F5EDE6] flex items-center justify-center font-semibold relative overflow-hidden"
+  if (isChecking) return <div className="min-h-screen bg-[#020617] text-[#F5EDE6] flex flex-col items-center justify-center font-semibold space-y-4 relative overflow-hidden"
   >
-    Loading...
+    <p>Please wait while the server loads.</p>
+    <p>
+      <a
+        href="https://youtu.be/BIpvjqThPIo"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-400 underline hover:text-blue-300 transition"
+      >
+        Watch
+      </a>{" "}
+       how this app works while you wait.
+    </p>
+
   </div>;
 
   return (

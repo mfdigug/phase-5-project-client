@@ -171,6 +171,19 @@ function Login() {
           >
             Continue with Google
           </button>
+
+      
+          <p className="mt-6">
+            <a
+              href="https://youtu.be/BIpvjqThPIo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 underline hover:text-blue-300 transition"
+            >
+              Click here
+            </a>{" "}
+            to watch a demo.
+          </p>
           
       </div>
       
