@@ -3,7 +3,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 const SelectedRestaurant = ({ restaurant, price, priceLabels, priceColors }) => {
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-slate-700/40 to-slate-900 rounded-2xl p-6 shadow-xl shadow-red-600/20 text-white mb-6 items-center">
+    <div className="group bg-gradient-to-br from-slate-900 via-slate-700/40 to-slate-900 rounded-2xl p-6 shadow-xl shadow-red-600/20 text-white mb-6 items-center">
       
       {/* Header */}
       <p className="text-xs text-slate-300 uppercase mb-3 self-start">
@@ -15,6 +15,9 @@ const SelectedRestaurant = ({ restaurant, price, priceLabels, priceColors }) => 
         {restaurant.name}
       </h4>
 
+      <div className="transition-all duration-300 ease-in-out 
+                      max-h-0 group-hover:max-h-[500px] overflow-hidden
+                      flex flex-col items-center gap-2">
       {/* Location */}
       <div className="flex items-center justify-center gap-2 text-sm text-slate-300 mb-2">
         <FontAwesomeIcon 
@@ -45,6 +48,7 @@ const SelectedRestaurant = ({ restaurant, price, priceLabels, priceColors }) => 
         </p>
 
       </div>
+    </div>
     </div>
   );
 };
