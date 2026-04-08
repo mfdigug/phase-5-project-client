@@ -15,6 +15,8 @@ The app combines **React** (Vite) on the frontend with a **Flask** backend, inte
 This is the repo and code for the Flask backend.
 You will be able to find the front end repo here: [GitHub Repo Phase 5 Project Server](https://github.com/mfdigug/phase-5-project-server)
 
+You can also find a demo video here: [DinnerDecider App Demo](https://youtu.be/BIpvjqThPIo)
+
 ---
 
 ## Table of Contents
