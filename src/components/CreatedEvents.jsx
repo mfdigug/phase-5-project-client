@@ -41,9 +41,10 @@ const CreatedEvents = () => {
             lg:grid-cols-3 
             xl:grid-cols-4 
             justify-items-center
-            gap-6">
+            gap-6
+            auto-rows-fr">
             {createdEvents.map((event) => (
-              <div className="w-full max-w-xs sm:w-auto">
+              <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
                 <EventCard key={event.id} event={event} showGenerateRestaurant={true} showDeleteEvent={true}/>  
               </div>
         ))} 

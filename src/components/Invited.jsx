@@ -26,7 +26,7 @@ const Invited = () => {
             justify-items-center
             gap-6">
             {invitedEvents.map((event) => (
-              <div className="w-full max-w-xs sm:w-auto">
+              <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
                 <EventCard key={event.id} event={event} showRSVP={true}/>
               </div>
             ))}

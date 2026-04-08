@@ -53,6 +53,8 @@ const EventCard = ({ event, showGenerateRestaurant, showRSVP, showDeleteEvent })
       hover:shadow-[0_0_4px_rgba(20,184,166,0.3),0_0_10px_rgba(20,184,166,0.15)] 
       hover:-translate-y-1 
       transition-all duration-200
+      flex flex-col h-full w-full
+      min-w-0
     ">
       <div className="p-4 space-y-2">
         <div>
@@ -83,16 +85,32 @@ const EventCard = ({ event, showGenerateRestaurant, showRSVP, showDeleteEvent })
           />
         )}
 
-        <div>
-          <h3 className="text-white font-sanserif font-light mb-2">Attendees</h3>
+        <div className="relative group">
           <ul className="space-y-1">
-            {event.participants.map(p => (
+            {event.participants.slice(0, 2).map(p => (
               <li key={p.user_id} className="flex items-center gap-2 text-sm text-slate-400">
                 <FontAwesomeIcon icon={rsvpIcon[p.rsvp_status]} className={rsvpStyles[p.rsvp_status]} />
                 <span>{p.username}</span>
               </li>
             ))}
+            {event.participants.length > 2 && (
+              <li className="text-sm text-slate-400 cursor-pointer">+{event.participants.length - 2} more...</li>
+            )}
           </ul>
+
+          {/* Hover: show all participants */}
+          {event.participants.length > 2 && (
+            <div className="absolute top-0 left-0 mt-0 p-2 w-44 bg-slate-800/90 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+              <ul className="space-y-1">
+                {event.participants.map(p => (
+                  <li key={p.user_id} className="flex items-center gap-2 text-sm">
+                    <FontAwesomeIcon icon={rsvpIcon[p.rsvp_status]} className={rsvpStyles[p.rsvp_status]} />
+                    <span>{p.username}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {showRSVP && MyEP && (
