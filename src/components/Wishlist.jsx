@@ -43,7 +43,7 @@ const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status
             justify-items-center
             gap-6">
             {wishlistRestaurants.map((restaurant) => (
-              <div className="w-full max-w-xs sm:w-auto">
+              <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
                 <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="wishlist"/>
               </div>
           

@@ -50,7 +50,7 @@ const renderStars = (rating = 0, onRate) => {
 
   return (
     <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_3px_rgba(20,184,166,0.4),0_0_8px_rgba(20,184,166,0.25),0_0_14px_rgba(20,184,166,0.10)]
-    hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+    hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full w-full">
       {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
         <img
           src={
@@ -76,7 +76,8 @@ const renderStars = (rating = 0, onRate) => {
           <div className="mt-2 h-1 w-full bg-teal-500/30 rounded-full" />
         </div>
 
-        <p className="text-sm text-slate-400 mt-4 mb-4 flex uppercase items-center gap-2"> <FontAwesomeIcon icon={faLocationDot} />
+        <p className="text-sm text-slate-400 mt-4 mb-4 flex uppercase items-center gap-2"> 
+          <FontAwesomeIcon icon={faLocationDot} />
         {restaurant.location}</p>
         
         <div className="flex flex-wrap gap-2 mb-3">
