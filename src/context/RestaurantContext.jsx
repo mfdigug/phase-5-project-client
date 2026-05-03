@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext"
+import { apiFetch } from "../utils/api";
 
 const RestaurantContext = createContext();
 
@@ -14,13 +15,8 @@ export const RestaurantProvider = ({ children }) => {
 
         const fetchMyRestaurants = async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/my_restaurants`, {credentials: "include"});
-                if (res.ok) {
-                    const data = await res.json();
-                    setRestaurants(data);
-                } else {
-                    setRestaurants ([])
-                }
+                const data = await apiFetch("/api/my_restaurants");
+                setRestaurants(data);
             } catch (err) {
                 console.error("Failed to fetch restaurants", err);
                 setRestaurants([])
@@ -31,86 +27,38 @@ export const RestaurantProvider = ({ children }) => {
 
     }, [user]);
 
-    const updateRestaurantStatus = async (id, status) => {
-
-        const payload = { status };
-
-        console.log("Sending PATCH request:", {
-            id,
-            payload
-        });
-
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) throw new Error("Failed");
-
-        const updated = await res.json();
-        setRestaurants(prev => 
-            prev.map(r => (r.id === id ? updated : r))
-        );
-    };
-
-    const rateRestaurant = async (id, rating) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify({ rating }),
-        });
-
-        if (!res.ok) throw new Error("Failed to rate restaurant");
-
-        const updated = await res.json();
-
-        setRestaurants(prev => 
-            prev.map(r => (r.id === id ? updated : r))
-        )
-    }
-
+    //add restaurant to users wish
     const addRestaurant = async (restaurantData) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants`, {
+        const newRestaurant = await apiFetch("/api/user_restaurants", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(restaurantData)
+            body: JSON.stringify({
+                restaurant_id: place.google_place_id,
+                status: "wishlist",
+            }),
         });
 
-        if (!res.ok) {
-            const err = await res.json();
-            console.error("Failed to add restaurant:", err);
-            throw new Error("Failed to add restaurant")
-        }
-
-        const newRestaurant = await res.json();
         setRestaurants((prev) => [...prev, newRestaurant])
     }
 
+    // update status/rating/notes
+    const updateRestaurant = async (id, payload) => {
+        const updated = await apiFetch(`/api/user_restaurants/${id}`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        });
 
+        setRestaurants((prev) =>
+            prev.map((r) => (r.id === id ? updated : r))
+        );
+    };
+
+    // delete relationship
     const deleteRestaurant = async (id) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/restaurants/${id}`, {
+        await apiFetch(`/api/user_restaurants/${id}`, {
             method: "DELETE",
-            credentials: "include",
         });
 
         console.log("DELETE status:", res.status);
-
-        if (!res.ok) {
-            const text = await res.text();
-            console.error("DELETE failed:", text)
-            throw new Error("Failed to delete restaurant");
-        } 
-
 
         setRestaurants(prev => prev.filter(r => r.id !== id));
     }
@@ -122,9 +70,8 @@ export const RestaurantProvider = ({ children }) => {
         <RestaurantContext.Provider value={{
             restaurants,
             setRestaurants,
-            updateRestaurantStatus,
-            rateRestaurant,
             addRestaurant,
+            updateRestaurant,
             deleteRestaurant
         }}>
             {children}

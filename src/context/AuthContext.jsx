@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { apiFetch } from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -11,39 +12,27 @@ export const AuthProvider = ({ children }) => {
 
 
     const login = async (email, password) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+        const data = await apiFetch("/api/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
             body: JSON.stringify({ email, password }),
         });
-
-        if (!res.ok) throw new Error("Login failed");
-        const data = await res.json();
         setUser(data);
         return data
     };
 
     const register = async (userData) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
+        const data = await apiFetch("/api/register", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify(userData),
             });
 
-            const data = await res.json();
-            
-            if (!res.ok) {
-                throw new Error(data.error || "Registration failed");
-            }
-
             setUser(data);
+            return data;
     }
 
     
     const logout = async () => {
-        await fetch(`${import.meta.env.VITE_API_URL}/api/logout`,{
+        await apiFetch("/api/logout",{
             method: "DELETE",
             credentials: "include",
         });
@@ -53,18 +42,13 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkSession = async () => {
             try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/check_session`, { credentials: "include" });
-            if (res.ok) {
-                const data = await res.json();
-                setUser(data);
-            } else {
+            const data = await apiFetch("/api/check_session");
+            setUser(data);
+            } catch (err) {
                 setUser(null);
+            } finally {
+                setIsChecking(false)
             }
-        } catch (err) {
-            console.log("No active session", err);
-        } finally {
-            setIsChecking(false)
-        }
      };
       checkSession();
     }, []);

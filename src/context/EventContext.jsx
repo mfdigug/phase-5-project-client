@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext"
+import { apiFetch } from "../utils/api";
 
 const EventContext = createContext()
 
@@ -14,15 +15,8 @@ export const EventProvider = ({ children }) => {
 
         const fetchMyEvents = async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/my_events`, {
-                    credentials: "include"
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    setEvents(data);
-                } else {
-                    setEvents({ created: [], invited: [] })
-                } 
+                const data = await apiFetch("/api/my_events");
+                setEvents(data); 
             } catch (err) {
                     console.error("Failed to fetch events", err);
                     setEvents({ created: [], invited: [] })
@@ -33,6 +27,7 @@ export const EventProvider = ({ children }) => {
 
         }, [user]);
 
+
         const updateRSVP = async (id, rsvp_status) => {
 
         const payload = { rsvp_status };
@@ -42,18 +37,10 @@ export const EventProvider = ({ children }) => {
             payload
         });
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/event_participants/${id}`, {
+        const updated = await apiFetch(`/api/event_participants/${id}`, {
             method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
             body: JSON.stringify(payload),
         });
-
-        if (!res.ok) throw new Error("Failed");
-
-        const updated = await res.json();
 
         setEvents(prev => ({
             ...prev,
@@ -71,14 +58,11 @@ export const EventProvider = ({ children }) => {
 
     const generateRestaurant = async (eventId) => {
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}/generate_restaurant`, {
+        const data = await apiFetch(
+            `/api/events/${eventId}/generate_restaurant`, {
             method: "POST",
-            credentials: "include"
         });
 
-        if (!res.ok) throw new Error("Failed to generate restaurant");
-
-        const data = await res.json();
         console.log("FULL RESPONSE:", data);
         
         const chosenRestaurant = data.chosen;
@@ -95,22 +79,10 @@ export const EventProvider = ({ children }) => {
     }
 
     const createEvent = async (eventData) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+        const newEvent = await apiFetch("/api/events", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
             body: JSON.stringify(eventData)
         });
-
-        if (!res.ok) {
-            const err = await res.json();
-            console.error("Failed to add event:", err);
-            throw new Error("Failed to add event")
-        }
-
-        const newEvent = await res.json();
 
         setEvents((prev) => ({
             ...prev,
@@ -118,31 +90,26 @@ export const EventProvider = ({ children }) => {
         }))
     }
 
-        const deleteEvent = async (id) => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events/${id}`, {
+    const deleteEvent = async (id) => {
+        await apiFetch(`/api/events/${id}`, {
             method: "DELETE",
-            credentials: "include",
         });
-
-        console.log("DELETE status:", res.status);
-
-        if (!res.ok) {
-            const text = await res.text();
-            console.error("DELETE failed:", text)
-            throw new Error("Failed to delete event");
-        } 
 
         setEvents(prev => ({
             ...prev,
             created: prev.created.filter(e => e.id !== id)
-        })
-            
-        );
+        }));
     }
 
 
     return (
-        <EventContext.Provider value={{ events, setEvents, updateRSVP, generateRestaurant, createEvent, deleteEvent }}>
+        <EventContext.Provider value={{ 
+            events, 
+            setEvents, 
+            updateRSVP, 
+            generateRestaurant, 
+            createEvent, 
+            deleteEvent }}>
             {children}
         </EventContext.Provider>
     );
