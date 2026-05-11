@@ -7,12 +7,13 @@ const Tried = () => {
   const { user } = useAuth();
 
   console.log("User:", user);
-  const { restaurants } = useRestaurants();
-  
-  const triedRestaurants = restaurants.filter((restaurant) => restaurant.status === "tried");
+  const { userRestaurants } = useRestaurants();
 
-  // console.log(triedRestaurants)
+  const triedRestaurants = userRestaurants.filter(
+  r => r.status === "tried"
+);
 
+  console.log(triedRestaurants);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -29,9 +30,9 @@ const Tried = () => {
             xl:grid-cols-4 
             justify-items-center
             gap-6">
-            {triedRestaurants.map((restaurant) => (
+            {triedRestaurants.map((userRestaurant) => (
                 <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="tried"/>
+                <RestaurantCard key={userRestaurant.id} userRestaurant={userRestaurant} mode="tried"/>
                 </div>
             ))} 
         </div>

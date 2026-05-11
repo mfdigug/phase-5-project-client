@@ -4,9 +4,24 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 
-const RestaurantCard = ({ restaurant, mode }) => {
+const RestaurantCard = ({ userRestaurant, mode }) => {
 
-const { updateRestaurantStatus, rateRestaurant, deleteRestaurant } = useRestaurants()
+const { updateRestaurant, deleteRestaurant } = useRestaurants()
+
+console.log(userRestaurant)
+
+// .personal_rating
+// .status
+// restaurant
+// .address
+// .cuisine_override
+// .google_place_id
+// .id
+// .name
+// .photo_refs
+// .price_level
+// .website
+
 
 const priceLabels = {
   1: "$",
@@ -70,7 +85,7 @@ const renderStars = (rating = 0, onRate) => {
       <div className="p-6 space-y-2">
         <div>
           <h3 className="text-xl font-sanserif font-extralight [text-shadow:0_0_3px_rgba(220,38,38,0.6),0_0_8px_rgba(127,29,29,0.3)] text-white line-clamp-1 tracking-wide hover:line-clamp-none">
-            {restaurant.name}
+            {userRestaurant.restaurant.name}
           </h3>
 
           <div className="mt-2 h-1 w-full bg-teal-500/30 rounded-full" />
@@ -78,25 +93,25 @@ const renderStars = (rating = 0, onRate) => {
 
         <p className="text-sm text-slate-400 mt-4 mb-4 flex uppercase items-center gap-2"> 
           <FontAwesomeIcon icon={faLocationDot} />
-        {restaurant.location}</p>
+        {userRestaurant.restaurant.address}</p>
         
         <div className="flex flex-wrap gap-2 mb-3">
           <span className="px-2 py-1 text-xs font-opensans rounded bg-slate-700/50 border-slate-400 text-white"
           >
-            {restaurant.cuisine}
+            {userRestaurant.restaurant.cuisine_override}
           </span>
 
-          <span className={`px-2 py-1 text-xs bg-slate-700 rounded ${priceColors[restaurant.price_range]}`}>
-            {priceLabels[restaurant.price_range]}
+          <span className={`px-2 py-1 text-xs bg-slate-700 rounded ${priceColors[userRestaurant.restaurant.price_level]}`}>
+            {priceLabels[userRestaurant.restaurant.price_level]}
           </span>
         
         </div>
         
         <div className="mt-4 flex items-center gap-4 justify-between">
         <button 
-          onClick={() => updateRestaurantStatus(restaurant.id,
-            mode === "tried" ? "wishlist" : "tried"
-          )}
+          onClick={() => updateRestaurant(userRestaurant.id, {
+            status: mode === "tried" ? "wishlist" : "tried"
+          })}
           className={`px-3 py-1 text-xs rounded-md border 
             ${mode === "tried"
               ? "border-indigo-500/30 text-white hover:bg-indigo-500/10"
@@ -107,7 +122,7 @@ const renderStars = (rating = 0, onRate) => {
 
         {mode === "wishlist" && (
           <button
-            onClick={() => deleteRestaurant(restaurant.id)}
+            onClick={() => deleteRestaurant(userRestaurant.id)}
             className="px-3 py-1 text-xs rounded-md border border-red-500/30 
            text-white hover:bg-red-500/10
            transition-all duration-200 active:scale-95">
@@ -117,9 +132,10 @@ const renderStars = (rating = 0, onRate) => {
 
         {mode === "tried" && (
           <div className="flex gap-1">
-            {renderStars(restaurant.rating, (value => {
+            {renderStars(userRestaurant.personal_rating, (value => {
               console.log("Rated", value)
-              rateRestaurant(restaurant.id, value)
+              updateRestaurant(userRestaurant.id, {
+                personal_rating: value})
             }))}
           
           </div>

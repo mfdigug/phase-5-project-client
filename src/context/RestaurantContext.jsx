@@ -8,7 +8,7 @@ export const useRestaurants = () => useContext(RestaurantContext);
 
 export const RestaurantProvider = ({ children }) => {
     const { user } = useAuth();
-    const [restaurants, setRestaurants] = useState([])
+    const [userRestaurants, setUserRestaurants] = useState([])
 
     useEffect(() => {
         if (!user) return;
@@ -16,10 +16,11 @@ export const RestaurantProvider = ({ children }) => {
         const fetchMyRestaurants = async () => {
             try {
                 const data = await apiFetch("/api/my_restaurants");
-                setRestaurants(data);
+                console.log("user restaurants:", data.user_restaurants)
+                setUserRestaurants(data);
             } catch (err) {
                 console.error("Failed to fetch restaurants", err);
-                setRestaurants([])
+                setUserRestaurants([])
             }
         }
 
@@ -37,7 +38,7 @@ export const RestaurantProvider = ({ children }) => {
             }),
         });
 
-        setRestaurants((prev) => [...prev, newRestaurant])
+        setUserRestaurants((prev) => [...prev, newRestaurant])
     }
 
     // update status/rating/notes
@@ -47,7 +48,7 @@ export const RestaurantProvider = ({ children }) => {
             body: JSON.stringify(payload),
         });
 
-        setRestaurants((prev) =>
+        setUserRestaurants((prev) =>
             prev.map((r) => (r.id === id ? updated : r))
         );
     };
@@ -60,7 +61,7 @@ export const RestaurantProvider = ({ children }) => {
 
         console.log("DELETE status:", res.status);
 
-        setRestaurants(prev => prev.filter(r => r.id !== id));
+        setUserRestaurants(prev => prev.filter(r => r.id !== id));
     }
 
 
@@ -68,8 +69,8 @@ export const RestaurantProvider = ({ children }) => {
 
    return (
         <RestaurantContext.Provider value={{
-            restaurants,
-            setRestaurants,
+            userRestaurants,
+            setUserRestaurants,
             addRestaurant,
             updateRestaurant,
             deleteRestaurant

@@ -6,10 +6,18 @@ import { useRestaurants } from "../context/RestaurantContext"
 
 const Wishlist = () => {
   const { user } = useAuth();
-  const { restaurants } = useRestaurants();
+  const { userRestaurants } = useRestaurants();
+  
+  console.log("User:", user);
+  // restaurants.forEach(r => console.log(r.restaurant));
+  const wishlistRestaurants = userRestaurants.filter(
+  r => r.status === "wishlist"
+);
+
+console.log(wishlistRestaurants);
 
 
-const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status === "wishlist")
+// const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status === "wishlist")
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -42,9 +50,9 @@ const wishlistRestaurants = restaurants.filter((restaurant) => restaurant.status
             xl:grid-cols-4 
             justify-items-center
             gap-6">
-            {wishlistRestaurants.map((restaurant) => (
+            {wishlistRestaurants.map((userRestaurant) => (
               <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} mode="wishlist"/>
+                <RestaurantCard key={userRestaurant.id} userRestaurant={userRestaurant} mode="wishlist"/>
               </div>
           
         ))} 

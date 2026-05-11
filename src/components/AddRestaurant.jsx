@@ -1,185 +1,157 @@
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from "formik";
-import * as yup from "yup";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRestaurants } from "../context/RestaurantContext";
-import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../utils/api";
 
 const AddRestaurant = () => {
+    const navigate = useNavigate();
+    const { addRestaurant } = useRestaurants();
 
-  const navigate = useNavigate();
-  const { addRestaurant } = useRestaurants() 
-  const { user } = useAuth();
-  
-  const formSchema = yup.object().shape({
-    name: yup.string().required("Name required"),
-    cuisine: yup.string().required("Cuisine required"),
-    location: yup.string().required("Location required"),
-    price_range: yup.string().required("Select a price category"),
-   
-  });
+    const [query, setQuery] = useState("");
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  const priceMap = {
-    $: 1,
-    $$: 2,
-    $$$: 3,
-    $$$$: 4,
-    $$$$$: 5,
-  }
+    // 🔍 AUTOCOMPLETE (step 1)
+    const searchPlaces = async (text) => {
+        if (!text || text.trim().length < 2) {
+            setResults([]);
+            return;
+        }
 
+        setLoading(true);
 
-  const formik = useFormik({
-    initialValues: {
-        name: "",
-        cuisine: "",
-        location: "",
-        price_range: "",
-    },
-    validationSchema: formSchema,
-    onSubmit: async (values) => {
-        const payload = {
-            ...values,
-            price_range: priceMap[values.price_range],
-            suggested_by: user.id,
-            status: "wishlist"
-        };
         try {
-            await addRestaurant(payload);
-            console.log("FINAL PAYLOAD:", payload)
-            formik.resetForm();
-            navigate("/dashboard/restaurants/wishlist");
+            const data = await apiFetch(
+                `/api/autocomplete?input=${encodeURIComponent(text)}`
+            );
+
+            setResults(data.results || []);
         } catch (err) {
-            console.error(err)
-        }   
-    }
-    })
+            console.error("Autocomplete error:", err);
+            setResults([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  
-  
+    // ⏱ debounce
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            searchPlaces(query);
+        }, 300);
+
+        return () => clearTimeout(timeout);
+    }, [query]);
+
+    // ➕ SELECT FLOW (steps 2 → 4)
+    const handleSelect = async (place) => {
+        try {
+            // 1. Fetch full Google place details
+            const details = await apiFetch(`/api/place/${place.place_id}`);
+
+            const lat = details.location?.latitude;
+            const lng = details.location?.longitude;
+
+            // 2. Create or fetch canonical restaurant
+            const restaurant = await apiFetch(`/api/restaurants`, {
+                method: "POST",
+                body: JSON.stringify({
+                    google_place_id: details.id,
+                    name: details.name,
+                    address: details.address,
+                    lat,
+                    lng,
+                    rating: details.rating,
+                    website: details.website,
+                    price_level: details.priceLevel,
+                    cuisine_override: null
+                })
+            });
+
+            // 3. Add to user wishlist (UserRestaurant layer)
+            await apiFetch(`/api/user_restaurants`, {
+                method: "POST",
+                body: JSON.stringify({
+                    restaurant_id: restaurant.id,
+                    status: "wishlist"
+                })
+            });
+
+            // 4. UI updates
+            setSelected(details);
+            setQuery("");
+            setResults([]);
+
+        } catch (err) {
+            console.error("Failed to add restaurant:", err);
+        }
+    };
+
     return (
-    <form 
-    onSubmit={formik.handleSubmit}
-    className="
-    max-w-md mx-auto 
-    mt-6 
-    bg-gradient-to-br from-slate-700/60 to-slate-900/80 p-6 
-    rounded-xl 
-    space-y-6 
-    font-opensans 
-    shadow-[0_3px_6px_rgba(237,145,158,0.18),0_8px_20px_rgba(237,145,158,0.25)]"
-    >
-        <h2 className="text-2xl font-semibold font-antic tracking-wider text-slate-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
-            Add a New Restaurant
-        </h2>
+        <div className="max-w-md mx-auto mt-6 space-y-5 font-opensans">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* HEADER */}
+            <div className="
+                bg-gradient-to-br from-slate-700/60 to-slate-900/80
+                p-5 rounded-xl shadow-[0_3px_6px_rgba(237,145,158,0.18),0_8px_20px_rgba(237,145,158,0.25)]
+            ">
+                <h2 className="text-2xl font-semibold font-antic tracking-wider text-slate-300">
+                    Add a Restaurant
+                </h2>
 
-            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
-                Name
-            </label>
-            <input
-            type="text"
-            name="name"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
-          focus:ring-offset-0"
-            placeholder="Restaurant name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            />
-            
-            <p className="text-rose-300/60 text-sm min-h-[18px] mt-1"> {formik.errors.name}</p>
-       
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
-                Cuisine
-            </label>
-            <input
-            type="text"
-            name="cuisine"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
-          focus:ring-offset-0"
-            placeholder="e.g. Italian"
-            onChange={formik.handleChange}
-            value={formik.values.cuisine}
-            />
-            
-            <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.cuisine}</p>
-        
-        </div>
-   
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      
-            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
-                Location
-            </label>
-            <input
-            type="text"
-            name="location"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
-          focus:ring-offset-0"
-            placeholder="Suburb"
-            onChange={formik.handleChange}
-            value={formik.values.location}
-            />
-        
-           <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.location}</p>
-        
-        </div>
-
-        
-
-        <div className="grid grid-cols-2 items-start gap-4">
-        
-            <label className="block text-sm font-medium text-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-start">
-                Price Range
-            </label>
-
-            <div className="space-y-2">
-                {["$", "$$", "$$$", "$$$$", "$$$$$"].map((price) => (
-                    <label key={price} className="flex items-center gap-2 cursor-pointer">
-                        <input
-                         type="radio"
-                         name="price_range"
-                         value={price}
-                         onChange={formik.handleChange}
-                         checked={formik.values.price_range === price}
-                         className="text-teal-500 focus:ring-[#EFE4D8]/40
-          focus:ring-offset-0" 
-                        
-                        />
-                        <span className="text-slate-400">{price}</span>
-
-                    </label>
-                    
-                ))} 
-        
-                 <p className="text-rose-300 text-sm min-h-[18px] mt-1">
-                    {formik.errors.price_range}
+                <p className="text-sm text-slate-400 mt-1">
+                    Start typing to search for a restaurant
                 </p>
+            </div>
 
+            {/* SEARCH */}
+            <div className="
+                bg-gradient-to-br from-slate-700/60 to-slate-900/80
+                p-4 rounded-xl shadow-[0_3px_6px_rgba(237,145,158,0.18),0_8px_20px_rgba(237,145,158,0.25)]
+            ">
+                <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search restaurant name..."
+                    className="
+                        w-full px-3 py-2 rounded-lg
+                        bg-slate-800/60 text-slate-200
+                        border border-slate-600
+                        focus:outline-none focus:ring-2 focus:ring-[#EFE4D8]/40
+                    "
+                />
+
+                {loading && (
+                    <p className="text-xs text-slate-400 mt-2">
+                        Searching...
+                    </p>
+                )}
+
+                {/* RESULTS */}
+                {results.length > 0 && (
+                    <div className="mt-3 max-h-64 overflow-y-auto rounded-lg border border-slate-600">
+                        {results.map((place) => (
+                            <div
+                                key={place.place_id}
+                                onClick={() => handleSelect(place)}
+                                className="
+                                    p-3 cursor-pointer
+                                    hover:bg-slate-700/50
+                                    border-b border-slate-700
+                                    transition
+                                "
+                            >
+                                <p className="text-slate-200 font-medium">
+                                    {place.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
-    
-    <button 
-    type="submit"
-    className="
-    w-full py-2.5 
-    rounded-lg 
-    text-white font-medium
-    bg-gradient-to-br from-slate-600 via-slate-500 to-teal-400
-    shadow-lg
+    );
+};
 
-    hover:from-slate-700 hover:to-teal-600
-    active:scale-[0.98] transition-all duration-150
-    focus:outline-none focus:ring-2 focus:ring-slate-200/70 focus:ring-offset-0"
-    >
-        Submit
-    </button>
-
-    </form>
-  )
-}
-
-export default AddRestaurant
+export default AddRestaurant;
