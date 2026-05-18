@@ -10,6 +10,28 @@ const AddRestaurant = () => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [location, setLocation] = useState(null);
+
+
+      // Get User Location
+        useEffect(() => {
+            navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                setLocation({
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude
+                });
+            },
+            (err) => {
+                console.log("Location unavailablem using fallback", err)
+                // fallback location = Melbourne CBD
+                setLocation({
+                lat: -37.8136,
+                lng: 144.9631
+                })
+            }
+            )
+        }, []);
 
     // 🔍 AUTOCOMPLETE (step 1)
     const searchPlaces = async (text) => {
@@ -21,11 +43,15 @@ const AddRestaurant = () => {
         setLoading(true);
 
         try {
+            const lat = location?.lat;
+            const lng = location?.lng;
+
             const data = await apiFetch(
-                `/api/autocomplete?input=${encodeURIComponent(text)}`
+                `/api/autocomplete?input=${encodeURIComponent(text)}${lat && lng ? `&lat=${lat}&lng=${lng}` : ""}`
             );
 
             setResults(data.results || []);
+
         } catch (err) {
             console.error("Autocomplete error:", err);
             setResults([]);
@@ -64,23 +90,17 @@ const AddRestaurant = () => {
                     rating: details.rating,
                     website: details.website,
                     price_level: details.priceLevel,
-                    cuisine_override: null
+                    cuisine_override: null,
+                    photo_refs: details.photos?.map(p => p.name) || []
                 })
             });
 
-            // 3. Add to user wishlist (UserRestaurant layer)
-            await apiFetch(`/api/user_restaurants`, {
-                method: "POST",
-                body: JSON.stringify({
-                    restaurant_id: restaurant.id,
-                    status: "wishlist"
-                })
-            });
+            await addRestaurant(restaurant.id, "wishlist");
 
             // 4. UI updates
-            setSelected(details);
             setQuery("");
             setResults([]);
+            navigate("/dashboard/restaurants/wishlist");
 
         } catch (err) {
             console.error("Failed to add restaurant:", err);

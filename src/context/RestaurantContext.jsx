@@ -29,17 +29,20 @@ export const RestaurantProvider = ({ children }) => {
     }, [user]);
 
     //add restaurant to users wish
-    const addRestaurant = async (restaurantData) => {
-        const newRestaurant = await apiFetch("/api/user_restaurants", {
-            method: "POST",
-            body: JSON.stringify({
-                restaurant_id: place.google_place_id,
-                status: "wishlist",
-            }),
-        });
+    const addRestaurant = async (restaurantId, status = "wishlist") => {
+    const newUserRestaurant = await apiFetch("/api/user_restaurants", {
+        method: "POST",
+        body: JSON.stringify({
+            restaurant_id: restaurantId,
+            status
+        }),
+    });
 
-        setUserRestaurants((prev) => [...prev, newRestaurant])
-    }
+    // update state
+    setUserRestaurants((prev) => [...prev, newUserRestaurant]);
+
+    return newUserRestaurant; // useful for chaining/navigation
+};
 
     // update status/rating/notes
     const updateRestaurant = async (id, payload) => {
