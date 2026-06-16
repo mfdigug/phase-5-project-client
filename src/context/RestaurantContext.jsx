@@ -62,8 +62,6 @@ export const RestaurantProvider = ({ children }) => {
             method: "DELETE",
         });
 
-        console.log("DELETE status:", res.status);
-
         setUserRestaurants(prev => prev.filter(r => r.id !== id));
     }
 
