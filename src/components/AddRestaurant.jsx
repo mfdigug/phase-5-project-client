@@ -90,7 +90,7 @@ const AddRestaurant = () => {
                     rating: details.rating,
                     website: details.website,
                     price_level: details.priceLevel,
-                    cuisine_override: null,
+                    cuisine_override: details.inferredCuisine,
                     photo_refs: details.photos?.map(p => p.name) || []
                 })
             });
