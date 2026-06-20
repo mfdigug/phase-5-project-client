@@ -263,7 +263,29 @@ const CreateEvent = () => {
         
         </div>
 
-        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
+            Search radius:
+          </label>
+
+          <select
+            name="radius_km"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            onChange={formik.handleChange}
+            value={formik.values.radius_km}
+          >
+            <option value="">Select radius</option>
+            <option value="1">1 km</option>
+            <option value="3">3 km</option>
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="20">20 km</option>
+          </select>
+
+          <p className="text-rose-300 text-sm min-h-[18px] mt-1">
+            {formik.errors.radius_km}
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 items-start gap-4">
         
