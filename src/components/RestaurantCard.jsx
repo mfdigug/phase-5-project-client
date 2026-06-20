@@ -91,19 +91,28 @@ const renderStars = (rating = 0, onRate) => {
           <div className="mt-2 h-1 w-full bg-teal-500/30 rounded-full" />
         </div>
 
-        <p className="text-sm text-slate-400 mt-4 mb-4 flex uppercase items-center gap-2"> 
-          <FontAwesomeIcon icon={faLocationDot} />
-        {userRestaurant.restaurant.address}</p>
+        <p className="text-sm text-slate-400 mt-4 mb-4 flex items-start gap-2">
+          <FontAwesomeIcon icon={faLocationDot} className="mt-1 shrink-0" />
+          <span className="line-clamp-2 hover:line-clamp-none">
+            {userRestaurant.restaurant.address}
+          </span>
+        </p>
         
         <div className="flex flex-wrap gap-2 mb-3">
           <span className="px-2 py-1 text-xs font-opensans rounded bg-slate-700/50 border-slate-400 text-white"
           >
-            {userRestaurant.restaurant.cuisine_override}
+            {userRestaurant.restaurant.cuisine_tags?.join(", ") || userRestaurant.restaurant.cuisine_override || "Restaurant"}
           </span>
 
-          <span className={`px-2 py-1 text-xs bg-slate-700 rounded ${priceColors[userRestaurant.restaurant.price_level]}`}>
-            {priceLabels[userRestaurant.restaurant.price_level]}
-          </span>
+          {userRestaurant.restaurant.price_level ? (
+            <span className={`px-2 py-1 text-xs bg-slate-700 rounded ${priceColors[userRestaurant.restaurant.price_level]}`}>
+              {priceLabels[userRestaurant.restaurant.price_level]}
+            </span>
+          ) : (
+            <span className="px-2 py-1 text-xs bg-slate-700 rounded text-slate-400">
+              Price not listed
+            </span>
+          )}
         
         </div>
         
