@@ -1,58 +1,57 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from  "../context/AuthContext";
-// import { useEvents } from "../context/EventContext"
+import { useEvents } from "../context/EventContext"
 import EventCard from "./EventCard"
-// import CreateEvent from "./CreateEvent";
+import CreateEvent from "./CreateEvent";
 
 const CreatedEvents = () => {
-//     const { user } = useAuth()
-//     const  { events } = useEvents()
+    const { user } = useAuth()
+    const  { events } = useEvents()
   
-//     const createdEvents = events.created
-//     console.log(createdEvents)
+    const createdEvents = events.created
+    console.log(createdEvents)
   
   
   return (
-    <div>CreatedEvents</div>
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-//       <div className="flex flex-col items-center justify-center h-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="flex flex-col items-center justify-center h-full">
 
-//         <div className="flex items-center justify-between w-full mb-6 relative">
-//           <div className="w-0 md:w-auto"></div>
-//           <h2 className="text-2xl font-light font-antic text-slate-300 
-//               md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-//             Created Events
-//           </h2>
+        <div className="flex items-center justify-between w-full mb-6 relative">
+          <div className="w-0 md:w-auto"></div>
+          <h2 className="text-2xl font-light font-antic text-slate-300 
+              md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+            Created Events
+          </h2>
           
-//           <NavLink 
-//           to="/dashboard/events/create_event"
-//           className="
-//           bg-slate-800/60 text-white px-4 py-2 rounded
-//           hover:shadow-[0_0_15px_rgba(20,184,166,0.5)]
-//           hover:text-rose-100
-//           active:scale-95
-//           transition-colors">
-//             Create Event
-//           </NavLink>
-//         </div>
+          <NavLink 
+          to="/dashboard/events/create_event"
+          className="
+          bg-slate-800/60 text-white px-4 py-2 rounded
+          hover:shadow-[0_0_15px_rgba(20,184,166,0.5)]
+          hover:text-rose-100
+          active:scale-95
+          transition-colors">
+            Create Event
+          </NavLink>
+        </div>
 
-//         <div className="grid 
-//             grid-cols-1 
-//             sm:grid-cols-2 
-//             lg:grid-cols-3 
-//             xl:grid-cols-4 
-//             justify-items-center
-//             gap-6
-//             auto-rows-fr">
-//             {/* {createdEvents.map((event) => (
-//               <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
-//                 <EventCard key={event.id} event={event} showGenerateRestaurant={true} showDeleteEvent={true}/>  
-//               </div>
-//         ))}  */}
-//         </div>
+        <div className="grid 
+            grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4 
+            justify-items-center
+            gap-6
+            auto-rows-fr">
+            {createdEvents.map((event) => (
+              <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
+                <EventCard key={event.id} event={event} showGenerateRestaurant={true} showDeleteEvent={true}/>  
+              </div>
+        ))} 
+        </div>
 
-//       </div>
-//     </div>
+      </div>
+    </div>
 
   )
 }
