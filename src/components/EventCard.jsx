@@ -69,7 +69,11 @@ const EventCard = ({ event, showGenerateRestaurant, showRSVP, showDeleteEvent })
 
         {!event.selected_restaurant && (
           <EventFilters
-            location={event.location_filter}
+            location={
+              event.latitude && event.longitude
+                ? "Location set"
+                : "Any location"
+            }
             cuisine={event.cuisine_filter}
             price={event.price_filter}
             priceLabels={priceLabels}

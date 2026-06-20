@@ -9,18 +9,25 @@ const CreateEvent = () => {
 
   const navigate = useNavigate();
   const { createEvent } = useEvents() 
-  const { user } = useAuth();
-  
+  const { user } = useAuth(); 
   // states for user suggestions in invitee input
   const [userSuggestions, setUserSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inviteeInputRef = useRef();
+  // states for location autocomplete
+  const [locationSuggestions, setLocationSuggestions] = useState([]);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+
 
   const formSchema = yup.object().shape({
     title: yup.string().required("Name required"),
     date: yup.string().required("Please select a date and time"),
     cuisine_filter: yup.string().required("Cuisine required"),
     price_filter: yup.string().required("Select a price category"),
+    locationInput: yup.string().required("Location required"),
+    latitude: yup.number().required("Select a location from the list"),
+    longitude: yup.number().required("Select a location from the list"),
+    radius_km: yup.number().required("Select a radius"),
     invitees: yup.array().of(yup.string().trim().min(1)).min(1, "Add at least one invitee").required()
 });
 
@@ -39,6 +46,10 @@ const CreateEvent = () => {
         date: "",
         cuisine_filter: "",
         price_filter: "",
+        locationInput: "",
+        latitude: null,
+        longitude: null,
+        radius_km: "",
         invitees: [],
         inviteesInput: ""
     },
@@ -49,11 +60,9 @@ const CreateEvent = () => {
           date: values.date,
           cuisine_filter: values.cuisine_filter,
           price_filter: priceMap[values.price_filter],
-
-          // temporary: location scoring disabled until we add coordinates
-          latitude: null,
-          longitude: null,
-
+          latitude: values.latitude,
+          longitude: values.longitude,
+          radius_km: Number(values.radius_km),
           created_by: user.id,
           invitees: values.invitees
       };
@@ -69,7 +78,7 @@ const CreateEvent = () => {
 
 
     //autocomplete fetch existing users
-     useEffect(() => {
+    useEffect(() => {
     if (!formik.values.inviteesInput) return;
 
     const fetchSuggestions = async () => {
@@ -86,12 +95,64 @@ const CreateEvent = () => {
     fetchSuggestions();
   }, [formik.values.inviteesInput, formik.values.invitees]);
 
+  useEffect(() => {
+  if (!formik.values.locationInput) {
+    setLocationSuggestions([]);
+    return;
+  }
+
+  const fetchLocationSuggestions = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/autocomplete?input=${formik.values.locationInput}&type=location`
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setLocationSuggestions(data.results || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch location suggestions", err);
+    }
+  };
+  fetchLocationSuggestions();
+  }, [formik.values.locationInput]);
+
+
   const handleSuggestionClick = (username) => {
     formik.setFieldValue("invitees", [...formik.values.invitees, username]);
     formik.setFieldValue("inviteesInput", "");
     setUserSuggestions([]);
     inviteeInputRef.current.focus();
   }
+
+  const handleLocationSuggestionClick = async (suggestion) => {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/place/${suggestion.place_id}`
+    );
+
+    if (!res.ok) return;
+
+    const details = await res.json();
+
+    formik.setFieldValue("locationInput", suggestion.description);
+    formik.setFieldValue(
+      "latitude",
+      details.location?.latitude ?? null
+    );
+    formik.setFieldValue(
+      "longitude",
+      details.location?.longitude ?? null
+    );
+
+    setLocationSuggestions([]);
+    setShowLocationSuggestions(false);
+
+  } catch (err) {
+    console.error("Failed to fetch place details", err);
+  }
+  };
 
   
     return (
@@ -164,20 +225,42 @@ const CreateEvent = () => {
    
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       
-            {/* <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
+            <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Desired location:
             </label>
+            <div className="relative w-full">
             <input
             type="text"
-            name="location_filter"
+            name="locationInput"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="Suburb"
-            onChange={formik.handleChange}
-            value={formik.values.location_filter}
+            onChange={(e) => {
+              formik.setFieldValue("locationInput", e.target.value);
+              formik.setFieldValue("latitude", null);
+              formik.setFieldValue("longitude", null);
+              setShowLocationSuggestions(true);
+            }}
+            value={formik.values.locationInput}
+            onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 100)}
             />
+
+            {showLocationSuggestions && locationSuggestions.length > 0 && (
+              <ul className="absolute left-0 top-full z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200 text-sm">
+                {locationSuggestions.map((suggestion) => (
+                  <li
+                    key={suggestion.place_id}
+                    className="px-2 py-1 cursor-pointer hover:bg-slate-600"
+                    onMouseDown={() => handleLocationSuggestionClick(suggestion)}
+                  >
+                    {suggestion.description}
+                  </li>
+                ))}
+              </ul>
+            )}
+            </div>
         
            <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.location_filter}</p>
-         */}
+        
         </div>
 
         
@@ -217,60 +300,61 @@ const CreateEvent = () => {
             <label className="block text-sm font-medium text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] self-center">
                 Invite other users:
             </label>
-            <div className="relative w-full">
+          
+          <div className="relative w-full">
  
-  <input
-    type="text"
-    ref={inviteeInputRef}
-    name="inviteesInput"
-    placeholder="Enter usernames"
-    className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-    value={formik.values.inviteesInput || ""}
-    onChange={(e) => {
-      formik.setFieldValue("inviteesInput", e.target.value);
-      setShowSuggestions(true);
-    }}
-    onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
-  />
+            <input
+              type="text"
+              ref={inviteeInputRef}
+              name="inviteesInput"
+              placeholder="Enter usernames"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              value={formik.values.inviteesInput || ""}
+              onChange={(e) => {
+                formik.setFieldValue("inviteesInput", e.target.value);
+                setShowSuggestions(true);
+              }}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
+            />
+
+          
+            {showSuggestions && userSuggestions.length > 0 && (
+              <ul className="absolute left-0 top-full z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200 text-sm">
+                {userSuggestions.map(user => (
+                  <li
+                    key={user.id}
+                    className="px-2 py-1 cursor-pointer hover:bg-slate-600"
+                    onMouseDown={() => handleSuggestionClick(user.username)}
+                  >
+                    {user.username}
+                  </li>
+                ))}
+              </ul>
+            )}
 
  
-  {showSuggestions && userSuggestions.length > 0 && (
-    <ul className="absolute left-0 top-full z-10 bg-slate-700 border border-slate-500 w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto text-slate-200 text-sm">
-      {userSuggestions.map(user => (
-        <li
-          key={user.id}
-          className="px-2 py-1 cursor-pointer hover:bg-slate-600"
-          onMouseDown={() => handleSuggestionClick(user.username)}
-        >
-          {user.username}
-        </li>
-      ))}
-    </ul>
-  )}
-
- 
-  <div className="flex flex-wrap gap-2 mt-1">
-    {formik.values.invitees.map(username => (
-      <span
-        key={username}
-        className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1"
-      >
-        {username}
-        <button
-          type="button"
-          onClick={() =>
-            formik.setFieldValue(
-              "invitees",
-              formik.values.invitees.filter(u => u !== username)
-            )
-          }
-        >
-          ×
-        </button>
-      </span>
-    ))}
-  </div>
-</div>
+          <div className="flex flex-wrap gap-2 mt-1">
+            {formik.values.invitees.map(username => (
+              <span
+                key={username}
+                className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1"
+              >
+                {username}
+                <button
+                  type="button"
+                  onClick={() =>
+                    formik.setFieldValue(
+                      "invitees",
+                      formik.values.invitees.filter(u => u !== username)
+                    )
+                  }
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+      </div>
 
         <p className="text-rose-300 text-sm min-h-[18px] mt-1">
             {formik.errors.invitees}
