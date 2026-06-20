@@ -91,6 +91,7 @@ const AddRestaurant = () => {
                     website: details.website,
                     price_level: details.priceLevel,
                     cuisine_override: details.inferredCuisine,
+                    cuisine_tags: details.cuisineTags,
                     photo_refs: details.photos?.map(p => p.name) || []
                 })
             });
