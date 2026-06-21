@@ -80,7 +80,6 @@ const EventCard = ({ event, showGenerateRestaurant, showRSVP, showDeleteEvent })
         {event.selected_restaurant && (
           <SelectedRestaurant
             restaurant={event.selected_restaurant}
-            price={event.price_filter}
             priceLabels={priceLabels}
             priceColors={priceColors}
           />

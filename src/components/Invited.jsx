@@ -26,11 +26,11 @@ const Invited = () => {
             xl:grid-cols-4 
             justify-items-center
             gap-6">
-            {/* {invitedEvents.map((event) => (
+            {invitedEvents.map((event) => (
               <div className="w-full sm:w-[260px] md:w-[280px] lg:w-[300px]">
                 <EventCard key={event.id} event={event} showRSVP={true}/>
               </div>
-            ))} */}
+            ))}
         </div>
     
       </div>

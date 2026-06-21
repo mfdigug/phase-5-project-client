@@ -64,6 +64,10 @@ export const EventProvider = ({ children }) => {
         });
 
         console.log("FULL RESPONSE:", data);
+        if (!data.chosen) {
+            console.warn(data.message || "No restaurant generated");
+            return;
+        }
         
         const chosenRestaurant = data.chosen;
 
