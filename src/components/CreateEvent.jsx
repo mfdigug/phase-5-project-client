@@ -63,6 +63,7 @@ const CreateEvent = () => {
           latitude: values.latitude,
           longitude: values.longitude,
           radius_km: Number(values.radius_km),
+          location_name: values.locationInput,
           created_by: user.id,
           invitees: values.invitees
       };
