@@ -66,21 +66,15 @@ const renderStars = (rating = 0, onRate) => {
   return (
     <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_3px_rgba(20,184,166,0.4),0_0_8px_rgba(20,184,166,0.25),0_0_14px_rgba(20,184,166,0.10)]
     hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full w-full">
-      {/* <div className="aspect-3/4 overflow-hidden bg-slate-100">
-        <img
-          src={
-            restaurant.image ||
-            "https://plus.unsplash.com/premium_photo-1772065873807-06f1313b665f?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-          alt={restaurant.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              "https://plus.unsplash.com/premium_photo-1772065873807-06f1313b665f?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-          }}
-        />
-      </div> */}
+            {userRestaurant.restaurant.photo_refs?.length > 0 && (
+              <div className="h-48 overflow-hidden bg-slate-800">
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/api/photo/${userRestaurant.restaurant.photo_refs[0]}`}
+                  alt={userRestaurant.restaurant.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
 
       <div className="p-6 space-y-2">
         <div>
@@ -99,8 +93,9 @@ const renderStars = (rating = 0, onRate) => {
         </p>
         
         <div className="flex flex-wrap gap-2 mb-3">
-          <span className="px-2 py-1 text-xs font-opensans rounded bg-slate-700/50 border-slate-400 text-white"
-          >
+          <span className="max-w-[50%] px-2 py-1 text-xs font-opensans rounded bg-slate-700/50 border-slate-400 text-white truncate" 
+          title={userRestaurant.restaurant.cuisine_tags?.join(", ") || userRestaurant.restaurant.cuisine_override || "Restaurant"}
+        >
             {userRestaurant.restaurant.cuisine_tags?.join(", ") || userRestaurant.restaurant.cuisine_override || "Restaurant"}
           </span>
 
@@ -152,6 +147,18 @@ const renderStars = (rating = 0, onRate) => {
         
         </div>
 
+          {userRestaurant.restaurant.website && (
+          <div className="pt-3 text-center">
+            <a
+              href={userRestaurant.restaurant.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-slate-400 hover:text-teal-400 hover:underline"
+            >
+              Visit website
+            </a>
+          </div>
+        )}
 
       </div>
     </div>
