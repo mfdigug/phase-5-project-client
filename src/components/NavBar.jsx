@@ -11,9 +11,8 @@ export default function NavBar() {
 
   const handleLogoutClick = async () => {
     await logout();
-    navigate("/login")
-
-  }
+    navigate("/login", { replace: true });
+  };
 
   return (
     <header className="
