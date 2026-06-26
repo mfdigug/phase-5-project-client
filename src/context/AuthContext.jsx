@@ -32,12 +32,14 @@ export const AuthProvider = ({ children }) => {
 
     
     const logout = async () => {
-        await apiFetch("/api/logout",{
+        try {
+            await apiFetch("/api/logout", {
             method: "DELETE",
-            credentials: "include",
-        });
-        setUser(null);
-    }
+            });
+        } finally {
+            setUser(null);
+        }
+        };
 
     useEffect(() => {
         const checkSession = async () => {
