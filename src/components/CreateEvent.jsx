@@ -271,7 +271,19 @@ const CreateEvent = () => {
 
           <select
             name="radius_km"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="
+              w-full
+              rounded-lg
+              border border-slate-500
+              bg-slate-800/80
+              text-slate-200
+              px-3 py-2
+              appearance-none
+              focus:outline-none
+              focus:ring-2
+              focus:ring-teal-400
+              focus:border-teal-400
+            "
             onChange={formik.handleChange}
             value={formik.values.radius_km}
           >
