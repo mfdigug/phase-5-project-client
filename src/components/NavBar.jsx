@@ -11,7 +11,7 @@ export default function NavBar() {
 
   const handleLogoutClick = async () => {
     await logout();
-    navigate("/login", { replace: true });
+    window.location.assign("/login");
   };
 
   return (
