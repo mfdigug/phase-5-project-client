@@ -1,3 +1,4 @@
+import {useState} from "react";
 import { useRestaurants } from "../context/RestaurantContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +8,7 @@ import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 const RestaurantCard = ({ userRestaurant, mode }) => {
 
 const { updateRestaurant, deleteRestaurant } = useRestaurants()
+const [currentPhoto, setCurrentPhoto] = useState(0);
 
 console.log(userRestaurant)
 
@@ -67,12 +69,40 @@ const renderStars = (rating = 0, onRate) => {
     <div className="bg-gradient-to-tr from-gray-900 to-gray-700 rounded-xl border border-slate-600 overflow-hidden shadow-[0_0_3px_rgba(20,184,166,0.4),0_0_8px_rgba(20,184,166,0.25),0_0_14px_rgba(20,184,166,0.10)]
     hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full w-full">
             {userRestaurant.restaurant.photo_refs?.length > 0 && (
-              <div className="h-48 overflow-hidden bg-slate-800">
+              <div className="relative h-40 overflow-hidden bg-slate-800">
                 <img
-                  src={`${import.meta.env.VITE_API_URL}/api/photo/${userRestaurant.restaurant.photo_refs[0]}`}
+                  src={`${import.meta.env.VITE_API_URL}/api/photo/${userRestaurant.restaurant.photo_refs[currentPhoto]}`}
                   alt={userRestaurant.restaurant.name}
                   className="w-full h-full object-cover"
                 />
+
+                {userRestaurant.restaurant.photo_refs.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCurrentPhoto((prev) =>
+                          prev === 0 ? userRestaurant.restaurant.photo_refs.length - 1 : prev - 1
+                        )
+                      }
+                      className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/70 px-2 py-1 text-xs text-white hover:bg-slate-800"
+                    >
+                      ‹
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCurrentPhoto((prev) =>
+                          prev === userRestaurant.restaurant.photo_refs.length - 1 ? 0 : prev + 1
+                        )
+                      }
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/70 px-2 py-1 text-xs text-white hover:bg-slate-800"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
               </div>
             )}
 

@@ -19,17 +19,17 @@ const SelectedRestaurant = ({ restaurant, priceLabels, priceColors }) => {
                       max-h-0 group-hover:max-h-[500px] overflow-hidden
                       flex flex-col items-center gap-2">
       {/* Location */}
-      <div className="flex items-center justify-center gap-2 text-sm text-slate-300 mb-2">
+      <div className="flex items-center justify-center gap-2 text-sm text-slate-300 mb-2 w-full max-w-xs">
         <FontAwesomeIcon 
           icon={faLocationDot} 
-          className="text-teal-400/40 text-xs"
+          className="text-teal-400/40 text-xs shrink-0"
         />
-        <span className="truncate">  {restaurant.location || restaurant.address || "Address not listed"}</span>
+        <span className="text-center">{restaurant.address || "Address not listed"}</span>
       </div>
 
       {/* Footer row */}
       <div className="flex items-center justify-center w-full max-w-xs gap-2 pt-1">
-        {restaurant.price_level && (
+        {restaurant.price_level ? (
           <span
             className={`
               text-xs px-2 py-1 rounded-md
@@ -41,15 +41,40 @@ const SelectedRestaurant = ({ restaurant, priceLabels, priceColors }) => {
           >
             {priceLabels[restaurant.price_level]}
           </span>
+        ) : (
+          <span
+            className="
+              text-xs px-2 py-1 rounded-md
+              bg-slate-800/60
+              border border-slate-500/20
+              text-slate-400
+              whitespace-nowrap
+            "
+          >
+            price not listed
+          </span>
         )}
 
-        <p className="text-xs text-slate-400 tracking-wide">
-          {Array.isArray(restaurant.cuisine)
-            ? restaurant.cuisine.join(", ")
-            : restaurant.cuisine || "Restaurant"}
+        <p className="text-xs text-slate-400 tracking-wide text center
+          bg-slate-800/60
+            border border-slate-500/20
+            px-2 py-1 rounded-md">
+          {restaurant.cuisine_tags?.join(", ") || "Restaurant"}
         </p>
 
       </div>
+
+      {restaurant.website && (
+          <a
+            href={restaurant.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pt-2 text-xs text-slate-400 hover:text-teal-400 hover:underline"
+          >
+            Visit website
+          </a>
+      )}
+
     </div>
     </div>
   );
