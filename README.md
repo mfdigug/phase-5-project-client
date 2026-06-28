@@ -15,7 +15,7 @@ The app combines **React (Vite)** on the frontend with a **Flask** backend, inte
 This is the repo and code for the React frontend.
 You will be able to find the backend repo here: https://github.com/mfdigug/phase-5-project-server
 
-You can also find a demo video here: https://youtu.be/BIpvjqThPIo
+You can also find a demo video here: https://youtu.be/xn57LeVEr4k
 
 ---
 

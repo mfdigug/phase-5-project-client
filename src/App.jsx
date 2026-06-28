@@ -33,7 +33,7 @@ function App() {
     <p>Please wait while the server loads.</p>
     <p>
       <a
-        href="https://youtu.be/BIpvjqThPIo"
+        href="https://youtu.be/xn57LeVEr4k"
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-400 underline hover:text-blue-300 transition"
