@@ -105,8 +105,8 @@ const CreateEvent = () => {
   const fetchLocationSuggestions = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/autocomplete?input=${formik.values.locationInput}&type=location`
-      );
+      `${import.meta.env.VITE_API_URL}/api/autocomplete?input=${encodeURIComponent(formik.values.locationInput)}&type=location&lat=-37.8136&lng=144.9631`
+    );
 
       if (res.ok) {
         const data = await res.json();
@@ -260,7 +260,7 @@ const CreateEvent = () => {
             )}
             </div>
         
-           <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.location_filter}</p>
+           <p className="text-rose-300 text-sm min-h-[18px] mt-1"> {formik.errors.locationInput}</p>
         
         </div>
 
