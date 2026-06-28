@@ -10,7 +10,14 @@ const RSVP = ({ MyEP, myRSVPStatus, updateRSVP }) => {
 
   return (
     <div className="flex flex-col gap-2 mt-4 w-full items-center">
-      {isEditing || !myRSVPStatus ? (
+      {isEditing || myRSVPStatus === "invited" || !myRSVPStatus ? (
+        <>
+          {(myRSVPStatus === "invited" || !myRSVPStatus) && (
+            <p className="text-slate-300 text-xs font-medium">
+              RSVP to this event
+            </p>
+          )}
+        
         <div className="flex gap-4 justify-center w-full">
           <button
             onClick={() => handleRSVP("accepted")}
@@ -26,6 +33,7 @@ const RSVP = ({ MyEP, myRSVPStatus, updateRSVP }) => {
             Decline
           </button>
         </div>
+      </>
       ) : (
         <div className="flex flex-wrap gap-2 text-center w-full items-center">
           <span className="text-slate-300 text-xs font-medium">
